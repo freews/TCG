@@ -1,0 +1,62 @@
+
+잘린 Table 처리 문제없이 처리함 
+
+def create_prompt(last_table_info: str = None) -> str:
+    """프롬프트 생성 - 이전 페이지의 테이블 정보 포함"""
+    if last_table_info:
+        base_prompt = f"""Extract all text from this page. Follow these rules:
+1. Section headings: Use ## only for numbered sections (e.g., "## 4.2.1.1 SPInfo").
+2. Apply markdown format to Table, and also apply it to the table with only one row. 
+   Keep the row line number in the cell of the table.  
+3. Do not skip any text, table, table-like object, in other words, include everything visible on the page.
+4. For consecutive squares having text inside at the top of documents,
+   It shall be interpreted as last row of previous page's table. Output table without header format at the same position with title- the title is "{last_table_info}".
+"""
+    else:
+        base_prompt = """Extract all text from this page. Follow these rules:
+1. Section headings: Use ## only for numbered sections (e.g., "## 4.2.1.1 SPInfo").
+2. Apply markdown format to Table, and also apply it to the table with only one row. 
+   Keep the row line number in the cell of the table.  
+3. Do not skip any text, table, table-like object, in other words, include everything visible on the page.
+"""
+    
+    return base_prompt
+
+해더 푸터 지우는 프롬프트 ( 작동은 하나 너무 프롬프트가 길어서 후처리 함수에서 처리 하기로 함)
+Page header: (54, 42, 364, 58)  
+Page footer: (20, 965, 592, 980)  
+Page number: (732, 965, 765, 980)  
+Copyright: (842, 965, 918, 980)
+
+def create_prompt(last_table_info: str = None) -> str:
+    """프롬프트 생성 - 이전 페이지의 테이블 정보 포함"""
+    if last_table_info:
+        base_prompt = f"""Extract all text from this page. Follow these rules:
+1. Section headings: Use ## only for numbered sections (e.g., "## 4.2.1.1 SPInfo").
+2. Apply markdown format to Table, and also apply it to the table with only one row. 
+   Keep the row line number in the cell of the table.  
+3. Do not skip any text, table, table-like object, in other words, include everything visible on the page.
+4. For consecutive squares having text inside at the top of documents,
+   It shall be interpreted as last row of previous page's table. Output table without header format at the same position with title- the title is "{last_table_info}".
+5. SKIP the document's page header and footer. These appear at the top/bottom of every page:
+   - Page header example: "TCG Storage Security Subsystem Class (SSC): Opal | Version X.XX"
+   - Page footer example: Page numbers, copyright "© TCG 2025"
+   DO NOT include these in your output. Start from the actual content.
+   BUT: DO include all table titles (e.g., "### Table 18 - ...") and section headers (e.g., "## 4.1.1.2").
+6. IMPORTANT: Preserve the exact top-to-bottom order of content as it appears on the page (after skipping header/footer).
+   If a table appears before a section heading, output the table first.
+"""
+    else:
+        base_prompt = """Extract all text from this page. Follow these rules:
+1. Section headings: Use ## only for numbered sections (e.g., "## 4.2.1.1 SPInfo").
+2. Apply markdown format to Table, and also apply it to the table with only one row. 
+   Keep the row line number in the cell of the table.  
+3. Do not skip any text, table, table-like object, in other words, include everything visible on the page.
+4. SKIP the document's page header and footer. These appear at the top/bottom of every page:
+   - Page header example: "TCG Storage Security Subsystem Class (SSC): Opal | Version X.XX"
+   - Page footer example: Page numbers, copyright "© TCG 2025"
+   DO NOT include these in your output. Start from the actual content.
+   BUT: DO include all table titles (e.g., "### Table 18 - ...") and section headers (e.g., "## 4.1.1.2").
+5. IMPORTANT: Preserve the exact top-to-bottom order of content as it appears on the page (after skipping header/footer).
+   If a table appears before a section heading, output the table first. 
+"""

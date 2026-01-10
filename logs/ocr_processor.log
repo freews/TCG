@@ -1,0 +1,336 @@
+2026-01-10 00:30:07 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 33...
+2026-01-10 00:30:08 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~137 tokens
+2026-01-10 00:31:24 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~414 tokens, Total context: ~551 tokens
+2026-01-10 00:31:24 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0033.md (76.2s)
+2026-01-10 00:31:24 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 34...
+2026-01-10 00:31:24 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 17 - Properties Requirements
+2026-01-10 00:31:24 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~223 tokens
+2026-01-10 00:32:48 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~471 tokens, Total context: ~694 tokens
+2026-01-10 00:32:48 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0034.md (84.1s)
+2026-01-10 00:32:48 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 35...
+2026-01-10 00:32:48 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 17 - Properties Requirements (continued)
+2026-01-10 00:32:48 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~229 tokens
+2026-01-10 00:34:28 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~422 tokens, Total context: ~651 tokens
+2026-01-10 00:34:28 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0035.md (99.5s)
+2026-01-10 00:34:28 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 36...
+2026-01-10 00:34:28 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 19 - Admin SP - SPTemplates Table Preconfiguration
+2026-01-10 00:34:28 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~234 tokens
+2026-01-10 00:35:59 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~362 tokens, Total context: ~596 tokens
+2026-01-10 00:35:59 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0036.md (91.5s)
+2026-01-10 00:35:59 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 37...
+2026-01-10 00:35:59 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 20 - Admin SP - Table Table Preconfiguration
+2026-01-10 00:35:59 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~231 tokens
+2026-01-10 00:37:32 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~340 tokens, Total context: ~571 tokens
+2026-01-10 00:37:32 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0037.md (93.0s)
+2026-01-10 00:37:32 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 38...
+2026-01-10 00:37:32 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 20 - Admin SP - Table Table Preconfiguration (continued)
+2026-01-10 00:37:32 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~237 tokens
+2026-01-10 00:40:04 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~503 tokens, Total context: ~740 tokens
+2026-01-10 00:40:04 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0038.md (151.2s)
+2026-01-10 00:40:04 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 39...
+2026-01-10 00:40:04 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 21 - Admin SP - MethodID Table Preconfiguration
+2026-01-10 00:40:04 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~232 tokens
+2026-01-10 00:41:52 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~723 tokens, Total context: ~955 tokens
+2026-01-10 00:41:52 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0039.md (108.5s)
+2026-01-10 00:41:52 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 40...
+2026-01-10 00:41:52 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 22
+2026-01-10 00:41:52 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~210 tokens
+2026-01-10 00:43:48 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~749 tokens, Total context: ~959 tokens
+2026-01-10 00:43:48 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0040.md (115.3s)
+2026-01-10 00:43:48 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 41...
+2026-01-10 00:43:48 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 22 (continued)
+2026-01-10 00:43:48 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~216 tokens
+2026-01-10 00:44:45 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~317 tokens, Total context: ~533 tokens
+2026-01-10 00:44:45 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0041.md (57.4s)
+2026-01-10 00:44:45 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 42...
+2026-01-10 00:44:45 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 22 (continued) (continued)
+2026-01-10 00:44:45 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~222 tokens
+2026-01-10 00:45:55 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~210 tokens, Total context: ~432 tokens
+2026-01-10 00:45:55 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0042.md (69.3s)
+2026-01-10 00:45:55 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 43...
+2026-01-10 00:45:55 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 22 (continued) (continued) (continued)
+2026-01-10 00:45:55 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~228 tokens
+2026-01-10 00:47:32 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~568 tokens, Total context: ~796 tokens
+2026-01-10 00:47:32 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0043.md (97.6s)
+2026-01-10 00:47:32 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 44...
+2026-01-10 00:47:33 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 22 (continued) (continued) (continued) (continued)
+2026-01-10 00:47:33 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~234 tokens
+2026-01-10 00:49:16 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~646 tokens, Total context: ~880 tokens
+2026-01-10 00:49:16 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0044.md (103.7s)
+2026-01-10 00:49:16 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 45...
+2026-01-10 00:49:16 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 22 (continued) (continued) (continued) (continued) (continued)
+2026-01-10 00:49:16 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~240 tokens
+2026-01-10 00:50:33 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~462 tokens, Total context: ~702 tokens
+2026-01-10 00:50:33 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0045.md (76.3s)
+2026-01-10 00:50:33 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 46...
+2026-01-10 00:50:33 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 22 (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 00:50:33 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~246 tokens
+2026-01-10 00:51:49 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~424 tokens, Total context: ~670 tokens
+2026-01-10 00:51:49 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0046.md (75.9s)
+2026-01-10 00:51:49 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 47...
+2026-01-10 00:51:49 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 23 - Admin SP - ACE Table Preconfiguration
+2026-01-10 00:51:49 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~230 tokens
+2026-01-10 00:53:26 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~481 tokens, Total context: ~711 tokens
+2026-01-10 00:53:26 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0047.md (97.3s)
+2026-01-10 00:53:26 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 48...
+2026-01-10 00:53:26 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 23 - Admin SP - ACE Table Preconfiguration (continued)
+2026-01-10 00:53:26 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~236 tokens
+2026-01-10 00:55:19 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~421 tokens, Total context: ~657 tokens
+2026-01-10 00:55:19 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0048.md (112.3s)
+2026-01-10 00:55:19 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 49...
+2026-01-10 00:55:19 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 25 - Admin SP - C_PIN Table Preconfiguration
+2026-01-10 00:55:19 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~231 tokens
+2026-01-10 00:57:20 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~697 tokens, Total context: ~928 tokens
+2026-01-10 00:57:20 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0049.md (120.7s)
+2026-01-10 00:57:20 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 50...
+2026-01-10 00:57:20 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 26
+2026-01-10 00:57:20 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~210 tokens
+2026-01-10 00:59:13 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~573 tokens, Total context: ~783 tokens
+2026-01-10 00:59:13 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0050.md (112.9s)
+2026-01-10 00:59:13 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 51...
+2026-01-10 00:59:13 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 29 - Admin SP - SP Table Preconfiguration
+2026-01-10 00:59:13 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~229 tokens
+2026-01-10 01:00:48 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~455 tokens, Total context: ~684 tokens
+2026-01-10 01:00:48 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0051.md (95.4s)
+2026-01-10 01:00:48 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 52...
+2026-01-10 01:00:48 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 32 - DataRemovalMechansim Table Description
+2026-01-10 01:00:48 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~230 tokens
+2026-01-10 01:02:43 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~541 tokens, Total context: ~771 tokens
+2026-01-10 01:02:43 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0052.md (114.6s)
+2026-01-10 01:02:43 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 53...
+2026-01-10 01:02:43 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 34 - Locking SP - SPInfo Table Preconfiguration
+2026-01-10 01:02:43 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~232 tokens
+2026-01-10 01:05:17 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~506 tokens, Total context: ~738 tokens
+2026-01-10 01:05:17 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0053.md (153.7s)
+2026-01-10 01:05:17 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 54...
+2026-01-10 01:05:17 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 36 - Locking SP - Table Table Preconfiguration
+2026-01-10 01:05:17 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~232 tokens
+2026-01-10 01:07:28 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~436 tokens, Total context: ~668 tokens
+2026-01-10 01:07:28 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0054.md (131.1s)
+2026-01-10 01:07:28 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 55...
+2026-01-10 01:07:28 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 36 - Locking SP - Table Table Preconfiguration (continued)
+2026-01-10 01:07:28 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~238 tokens
+2026-01-10 01:09:15 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~432 tokens, Total context: ~670 tokens
+2026-01-10 01:09:15 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0055.md (107.3s)
+2026-01-10 01:09:15 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 56...
+2026-01-10 01:09:15 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 36 - Locking SP - Table Table Preconfiguration (continued) (continued)
+2026-01-10 01:09:15 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~244 tokens
+2026-01-10 01:13:16 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~1671 tokens, Total context: ~1915 tokens
+2026-01-10 01:13:16 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0056.md (240.7s)
+2026-01-10 01:13:16 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 57...
+2026-01-10 01:13:16 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration
+2026-01-10 01:13:16 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~236 tokens
+2026-01-10 01:14:34 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~359 tokens, Total context: ~595 tokens
+2026-01-10 01:14:34 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0057.md (77.6s)
+2026-01-10 01:14:34 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 58...
+2026-01-10 01:14:34 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued)
+2026-01-10 01:14:34 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~242 tokens
+2026-01-10 01:15:41 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~321 tokens, Total context: ~563 tokens
+2026-01-10 01:15:41 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0058.md (67.1s)
+2026-01-10 01:15:41 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 59...
+2026-01-10 01:15:41 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued)
+2026-01-10 01:15:41 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~248 tokens
+2026-01-10 01:16:41 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~268 tokens, Total context: ~516 tokens
+2026-01-10 01:16:41 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0059.md (59.7s)
+2026-01-10 01:16:41 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 60...
+2026-01-10 01:16:41 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued)
+2026-01-10 01:16:41 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~254 tokens
+2026-01-10 01:17:50 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~378 tokens, Total context: ~632 tokens
+2026-01-10 01:17:50 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0060.md (68.6s)
+2026-01-10 01:17:50 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 61...
+2026-01-10 01:17:50 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued)
+2026-01-10 01:17:50 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~260 tokens
+2026-01-10 01:18:57 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~308 tokens, Total context: ~568 tokens
+2026-01-10 01:18:57 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0061.md (67.6s)
+2026-01-10 01:18:57 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 62...
+2026-01-10 01:18:57 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:18:57 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~266 tokens
+2026-01-10 01:20:03 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~364 tokens, Total context: ~630 tokens
+2026-01-10 01:20:03 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0062.md (65.3s)
+2026-01-10 01:20:03 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 63...
+2026-01-10 01:20:03 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:20:03 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~272 tokens
+2026-01-10 01:21:03 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~226 tokens, Total context: ~498 tokens
+2026-01-10 01:21:03 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0063.md (60.5s)
+2026-01-10 01:21:03 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 64...
+2026-01-10 01:21:03 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:21:03 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~278 tokens
+2026-01-10 01:22:07 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~310 tokens, Total context: ~588 tokens
+2026-01-10 01:22:07 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0064.md (63.4s)
+2026-01-10 01:22:07 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 65...
+2026-01-10 01:22:07 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:22:07 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~284 tokens
+2026-01-10 01:23:28 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~497 tokens, Total context: ~781 tokens
+2026-01-10 01:23:28 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0065.md (81.4s)
+2026-01-10 01:23:28 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 66...
+2026-01-10 01:23:29 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:23:29 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~290 tokens
+2026-01-10 01:24:42 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~269 tokens, Total context: ~559 tokens
+2026-01-10 01:24:42 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0066.md (73.4s)
+2026-01-10 01:24:42 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 67...
+2026-01-10 01:24:42 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:24:42 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~296 tokens
+2026-01-10 01:25:59 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~396 tokens, Total context: ~692 tokens
+2026-01-10 01:25:59 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0067.md (77.1s)
+2026-01-10 01:25:59 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 68...
+2026-01-10 01:25:59 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:25:59 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~302 tokens
+2026-01-10 01:27:10 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~254 tokens, Total context: ~556 tokens
+2026-01-10 01:27:10 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0068.md (71.0s)
+2026-01-10 01:27:10 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 69...
+2026-01-10 01:27:10 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:27:10 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~308 tokens
+2026-01-10 01:27:55 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~250 tokens, Total context: ~558 tokens
+2026-01-10 01:27:55 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0069.md (44.5s)
+2026-01-10 01:27:55 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 70...
+2026-01-10 01:27:55 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:27:55 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~314 tokens
+2026-01-10 01:29:23 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~308 tokens, Total context: ~622 tokens
+2026-01-10 01:29:23 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0070.md (88.4s)
+2026-01-10 01:29:23 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 71...
+2026-01-10 01:29:23 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:29:23 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~320 tokens
+2026-01-10 01:30:35 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~283 tokens, Total context: ~603 tokens
+2026-01-10 01:30:35 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0071.md (71.5s)
+2026-01-10 01:30:35 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 72...
+2026-01-10 01:30:35 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:30:35 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~326 tokens
+2026-01-10 01:31:52 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~296 tokens, Total context: ~622 tokens
+2026-01-10 01:31:52 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0072.md (77.2s)
+2026-01-10 01:31:52 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 73...
+2026-01-10 01:31:53 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:31:53 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~332 tokens
+2026-01-10 01:33:27 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~576 tokens, Total context: ~908 tokens
+2026-01-10 01:33:27 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0073.md (94.2s)
+2026-01-10 01:33:27 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 74...
+2026-01-10 01:33:27 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:33:27 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~338 tokens
+2026-01-10 01:34:33 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~243 tokens, Total context: ~581 tokens
+2026-01-10 01:34:33 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0074.md (66.0s)
+2026-01-10 01:34:33 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 75...
+2026-01-10 01:34:33 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:34:33 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~344 tokens
+2026-01-10 01:35:55 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~473 tokens, Total context: ~817 tokens
+2026-01-10 01:35:55 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0075.md (82.3s)
+2026-01-10 01:35:55 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 76...
+2026-01-10 01:35:55 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:35:55 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~350 tokens
+2026-01-10 01:37:03 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~249 tokens, Total context: ~599 tokens
+2026-01-10 01:37:03 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0076.md (67.1s)
+2026-01-10 01:37:03 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 77...
+2026-01-10 01:37:03 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:37:03 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~356 tokens
+2026-01-10 01:38:15 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~266 tokens, Total context: ~622 tokens
+2026-01-10 01:38:15 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0077.md (72.3s)
+2026-01-10 01:38:15 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 78...
+2026-01-10 01:38:15 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 38 - Locking SP - AccessControl Table Preconfiguration (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued) (continued)
+2026-01-10 01:38:15 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~362 tokens
+2026-01-10 01:40:16 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~660 tokens, Total context: ~1022 tokens
+2026-01-10 01:40:16 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0078.md (120.8s)
+2026-01-10 01:40:16 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 79...
+2026-01-10 01:40:16 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 39 - Locking SP - ACE Table Preconfiguration
+2026-01-10 01:40:16 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~231 tokens
+2026-01-10 01:41:59 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~324 tokens, Total context: ~555 tokens
+2026-01-10 01:41:59 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0079.md (103.1s)
+2026-01-10 01:41:59 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 80...
+2026-01-10 01:41:59 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 39 - Locking SP - ACE Table Preconfiguration (continued)
+2026-01-10 01:41:59 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~237 tokens
+2026-01-10 01:43:28 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~320 tokens, Total context: ~557 tokens
+2026-01-10 01:43:28 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0080.md (88.8s)
+2026-01-10 01:43:28 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 81...
+2026-01-10 01:43:28 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 39 - Locking SP - ACE Table Preconfiguration (continued) (continued)
+2026-01-10 01:43:28 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~243 tokens
+2026-01-10 01:45:12 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~455 tokens, Total context: ~698 tokens
+2026-01-10 01:45:12 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0081.md (104.1s)
+2026-01-10 01:45:12 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 82...
+2026-01-10 01:45:13 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 39 - Locking SP - ACE Table Preconfiguration (continued) (continued) (continued)
+2026-01-10 01:45:13 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~249 tokens
+2026-01-10 01:46:51 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~449 tokens, Total context: ~698 tokens
+2026-01-10 01:46:51 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0082.md (98.6s)
+2026-01-10 01:46:51 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 83...
+2026-01-10 01:46:51 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 40 - Locking SP - Authority Table Preconfiguration
+2026-01-10 01:46:51 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~234 tokens
+2026-01-10 01:48:37 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~420 tokens, Total context: ~654 tokens
+2026-01-10 01:48:37 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0083.md (105.4s)
+2026-01-10 01:48:37 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 84...
+2026-01-10 01:48:37 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 40 - Locking SP - Authority Table Preconfiguration (continued)
+2026-01-10 01:48:37 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~240 tokens
+2026-01-10 01:50:36 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~389 tokens, Total context: ~629 tokens
+2026-01-10 01:50:36 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0084.md (119.5s)
+2026-01-10 01:50:36 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 85...
+2026-01-10 01:50:36 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 42 - Locking SP - SecretProtect Table Preconfiguration
+2026-01-10 01:50:36 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~236 tokens
+2026-01-10 01:52:31 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~700 tokens, Total context: ~936 tokens
+2026-01-10 01:52:31 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0085.md (114.8s)
+2026-01-10 01:52:31 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 86...
+2026-01-10 01:52:31 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 44 - Locking SP - LockingInfo Table Preconfiguration
+2026-01-10 01:52:31 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~235 tokens
+2026-01-10 01:54:06 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~414 tokens, Total context: ~649 tokens
+2026-01-10 01:54:06 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0086.md (94.2s)
+2026-01-10 01:54:06 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 87...
+2026-01-10 01:54:06 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 45 - Locking SP - Locking Table Preconfiguration
+2026-01-10 01:54:06 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~233 tokens
+2026-01-10 01:55:41 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~549 tokens, Total context: ~782 tokens
+2026-01-10 01:55:41 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0087.md (95.6s)
+2026-01-10 01:55:41 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 88...
+2026-01-10 01:55:42 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 45 - Locking SP - Locking Table Preconfiguration (continued)
+2026-01-10 01:55:42 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~239 tokens
+2026-01-10 01:57:25 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~504 tokens, Total context: ~743 tokens
+2026-01-10 01:57:25 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0088.md (103.6s)
+2026-01-10 01:57:25 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 89...
+2026-01-10 01:57:25 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 46 - Locking SP - MBRControl Table Preconfiguration
+2026-01-10 01:57:25 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~234 tokens
+2026-01-10 01:59:38 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~432 tokens, Total context: ~666 tokens
+2026-01-10 01:59:38 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0089.md (132.9s)
+2026-01-10 01:59:38 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 90...
+2026-01-10 01:59:38 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 48 - Locking SP - K_AES_256 Table Preconfiguration
+2026-01-10 01:59:38 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~234 tokens
+2026-01-10 02:00:35 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~309 tokens, Total context: ~543 tokens
+2026-01-10 02:00:35 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0090.md (56.7s)
+2026-01-10 02:00:35 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 91...
+2026-01-10 02:00:35 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~137 tokens
+2026-01-10 02:02:32 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~713 tokens, Total context: ~850 tokens
+2026-01-10 02:02:32 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0091.md (116.7s)
+2026-01-10 02:02:32 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 92...
+2026-01-10 02:02:32 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~137 tokens
+2026-01-10 02:04:41 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~846 tokens, Total context: ~983 tokens
+2026-01-10 02:04:41 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0092.md (129.4s)
+2026-01-10 02:04:41 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 93...
+2026-01-10 02:04:42 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~137 tokens
+2026-01-10 02:07:05 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~854 tokens, Total context: ~991 tokens
+2026-01-10 02:07:05 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0093.md (143.7s)
+2026-01-10 02:07:05 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 94...
+2026-01-10 02:07:05 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~137 tokens
+2026-01-10 02:09:13 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~811 tokens, Total context: ~948 tokens
+2026-01-10 02:09:13 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0094.md (127.3s)
+2026-01-10 02:09:13 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 95...
+2026-01-10 02:09:13 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~137 tokens
+2026-01-10 02:11:13 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~783 tokens, Total context: ~920 tokens
+2026-01-10 02:11:13 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0095.md (120.3s)
+2026-01-10 02:11:13 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 96...
+2026-01-10 02:11:13 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~137 tokens
+2026-01-10 02:13:06 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~718 tokens, Total context: ~855 tokens
+2026-01-10 02:13:06 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0096.md (113.1s)
+2026-01-10 02:13:06 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 97...
+2026-01-10 02:13:07 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~137 tokens
+2026-01-10 02:15:08 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~737 tokens, Total context: ~874 tokens
+2026-01-10 02:15:08 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0097.md (121.7s)
+2026-01-10 02:15:08 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 98...
+2026-01-10 02:15:08 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~137 tokens
+2026-01-10 02:16:51 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~714 tokens, Total context: ~851 tokens
+2026-01-10 02:16:51 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0098.md (102.2s)
+2026-01-10 02:16:51 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 99...
+2026-01-10 02:16:51 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 50 - Table Table Additional Columns
+2026-01-10 02:16:51 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~226 tokens
+2026-01-10 02:18:25 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~552 tokens, Total context: ~778 tokens
+2026-01-10 02:18:25 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0099.md (93.8s)
+2026-01-10 02:18:25 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 100...
+2026-01-10 02:18:25 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 50 - Table Table Additional Columns (continued)
+2026-01-10 02:18:25 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~232 tokens
+2026-01-10 02:20:02 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~616 tokens, Total context: ~848 tokens
+2026-01-10 02:20:02 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0100.md (97.4s)
+2026-01-10 02:20:02 - ocr_processor - [32mINFO[0m - [step1_base.py:251] - Processing page 101...
+2026-01-10 02:20:02 - ocr_processor - [32mINFO[0m - [step1_base.py:262] -   📋 Previous page has table: Table 50 - Table Table Additional Columns (continued) (continued)
+2026-01-10 02:20:02 - ocr_processor - [32mINFO[0m - [step1_base.py:220] -   📊 Prompt size: ~238 tokens
+2026-01-10 02:31:53 - ocr_processor - [32mINFO[0m - [step1_base.py:242] -   📊 Response size: ~2310 tokens, Total context: ~2548 tokens
+2026-01-10 02:31:53 - ocr_processor - [32mINFO[0m - [step1_base.py:286] -   ✅ Saved: page_0101.md (711.2s)

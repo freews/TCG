@@ -1,0 +1,157 @@
+2026-01-09 23:07:40,822 - INFO - Processing page 1...
+2026-01-09 23:07:41,069 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:08:04,399 - INFO -   📊 Response size: ~48 tokens, Total context: ~185 tokens
+2026-01-09 23:08:04,400 - INFO -   Saved: page_0001.md (23.3s)
+2026-01-09 23:08:04,400 - INFO - Processing page 2...
+2026-01-09 23:08:04,548 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:08:59,258 - INFO -   📊 Response size: ~403 tokens, Total context: ~540 tokens
+2026-01-09 23:08:59,259 - INFO -   Saved: page_0002.md (54.7s)
+2026-01-09 23:08:59,259 - INFO - Processing page 3...
+2026-01-09 23:08:59,408 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:10:02,415 - INFO -   📊 Response size: ~329 tokens, Total context: ~466 tokens
+2026-01-09 23:10:02,416 - INFO -   Saved: page_0003.md (63.0s)
+2026-01-09 23:10:02,416 - INFO - Processing page 4...
+2026-01-09 23:10:02,572 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:11:28,986 - INFO -   📊 Response size: ~293 tokens, Total context: ~430 tokens
+2026-01-09 23:11:28,987 - INFO -   Saved: page_0004.md (86.4s)
+2026-01-09 23:11:28,987 - INFO - Processing page 5...
+2026-01-09 23:11:29,149 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:13:09,552 - INFO -   📊 Response size: ~344 tokens, Total context: ~481 tokens
+2026-01-09 23:13:09,553 - INFO -   Saved: page_0005.md (100.4s)
+2026-01-09 23:13:09,553 - INFO - Processing page 6...
+2026-01-09 23:13:09,709 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:14:54,644 - INFO -   📊 Response size: ~307 tokens, Total context: ~444 tokens
+2026-01-09 23:14:54,645 - INFO -   Saved: page_0006.md (104.9s)
+2026-01-09 23:14:54,645 - INFO - Processing page 7...
+2026-01-09 23:14:54,802 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:16:40,802 - INFO -   📊 Response size: ~337 tokens, Total context: ~474 tokens
+2026-01-09 23:16:40,803 - INFO -   Saved: page_0007.md (106.0s)
+2026-01-09 23:16:40,804 - INFO - Processing page 8...
+2026-01-09 23:16:40,934 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:18:23,291 - INFO -   📊 Response size: ~353 tokens, Total context: ~490 tokens
+2026-01-09 23:18:23,292 - INFO -   Saved: page_0008.md (102.4s)
+2026-01-09 23:18:23,293 - INFO - Processing page 9...
+2026-01-09 23:18:23,452 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:21:07,195 - INFO -   📊 Response size: ~776 tokens, Total context: ~913 tokens
+2026-01-09 23:21:07,197 - INFO -   Saved: page_0009.md (163.7s)
+2026-01-09 23:21:07,197 - INFO - Processing page 10...
+2026-01-09 23:21:07,305 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:21:48,418 - INFO -   📊 Response size: ~331 tokens, Total context: ~468 tokens
+2026-01-09 23:21:48,419 - INFO -   Saved: page_0010.md (41.1s)
+2026-01-09 23:21:48,419 - INFO - Processing page 11...
+2026-01-09 23:21:48,650 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:23:40,755 - INFO -   📊 Response size: ~783 tokens, Total context: ~920 tokens
+2026-01-09 23:23:40,756 - INFO -   Saved: page_0011.md (112.1s)
+2026-01-09 23:23:40,756 - INFO - Processing page 12...
+2026-01-09 23:23:40,889 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:25:07,758 - INFO -   📊 Response size: ~484 tokens, Total context: ~621 tokens
+2026-01-09 23:25:07,759 - INFO -   Saved: page_0012.md (86.9s)
+2026-01-09 23:25:07,759 - INFO - Processing page 13...
+2026-01-09 23:25:07,900 - INFO -   📋 Previous page has table: Table 1 - Preconfiguration Tables Legend
+2026-01-09 23:25:07,901 - INFO -   📊 Prompt size: ~226 tokens
+2026-01-09 23:27:10,537 - INFO -   📊 Response size: ~741 tokens, Total context: ~967 tokens
+2026-01-09 23:27:10,538 - INFO -   Saved: page_0013.md (122.6s)
+2026-01-09 23:27:10,539 - INFO - Processing page 14...
+2026-01-09 23:27:10,709 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:29:20,549 - INFO -   📊 Response size: ~692 tokens, Total context: ~829 tokens
+2026-01-09 23:29:20,551 - INFO -   Saved: page_0014.md (129.8s)
+2026-01-09 23:29:20,551 - INFO - Processing page 15...
+2026-01-09 23:29:20,708 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:30:44,003 - INFO -   📊 Response size: ~467 tokens, Total context: ~604 tokens
+2026-01-09 23:30:44,004 - INFO -   Saved: page_0015.md (83.3s)
+2026-01-09 23:30:44,005 - INFO - Processing page 16...
+2026-01-09 23:30:44,120 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:31:20,649 - INFO -   📊 Response size: ~209 tokens, Total context: ~346 tokens
+2026-01-09 23:31:20,650 - INFO -   Saved: page_0016.md (36.5s)
+2026-01-09 23:31:20,650 - INFO - Processing page 17...
+2026-01-09 23:31:20,797 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:32:55,513 - INFO -   📊 Response size: ~656 tokens, Total context: ~793 tokens
+2026-01-09 23:32:55,514 - INFO -   Saved: page_0017.md (94.7s)
+2026-01-09 23:32:55,515 - INFO - Processing page 18...
+2026-01-09 23:32:55,630 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:33:42,308 - INFO -   📊 Response size: ~294 tokens, Total context: ~431 tokens
+2026-01-09 23:33:42,309 - INFO -   Saved: page_0018.md (46.7s)
+2026-01-09 23:33:42,309 - INFO - Processing page 19...
+2026-01-09 23:33:42,462 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:35:07,221 - INFO -   📊 Response size: ~352 tokens, Total context: ~489 tokens
+2026-01-09 23:35:07,221 - INFO -   Saved: page_0019.md (84.8s)
+2026-01-09 23:35:07,222 - INFO - Processing page 20...
+2026-01-09 23:35:07,345 - INFO -   📋 Previous page has table: Table 2 - Level 0 Discovery Header
+2026-01-09 23:35:07,345 - INFO -   📊 Prompt size: ~223 tokens
+2026-01-09 23:37:03,047 - INFO -   📊 Response size: ~442 tokens, Total context: ~665 tokens
+2026-01-09 23:37:03,048 - INFO -   Saved: page_0020.md (115.7s)
+2026-01-09 23:37:03,048 - INFO - Processing page 21...
+2026-01-09 23:37:03,175 - INFO -   📋 Previous page has table: Table 4 - Level 0 Discovery - Locking Feature Descriptor
+2026-01-09 23:37:03,175 - INFO -   📊 Prompt size: ~234 tokens
+2026-01-09 23:54:16,443 - INFO - Processing page 21...
+2026-01-09 23:54:16,635 - INFO -   📊 Prompt size: ~137 tokens
+2026-01-09 23:56:08,240 - INFO -   📊 Response size: ~437 tokens, Total context: ~574 tokens
+2026-01-09 23:56:08,241 - INFO -   ✅ Saved: page_0021.md (111.6s)
+2026-01-09 23:56:08,242 - INFO - Processing page 22...
+2026-01-09 23:56:08,361 - INFO -   📋 Previous page has table: Table 5 - Level 0 Discovery - Geometry Reporting Feature Descriptor
+2026-01-09 23:56:08,361 - INFO -   📊 Prompt size: ~239 tokens
+2026-01-09 23:57:42,428 - INFO -   📊 Response size: ~368 tokens, Total context: ~607 tokens
+2026-01-09 23:57:42,430 - INFO -   ✅ Saved: page_0022.md (94.1s)
+2026-01-09 23:57:42,430 - INFO - Processing page 23...
+2026-01-09 23:57:42,596 - INFO -   📋 Previous page has table: Table 5 - Level 0 Discovery - Geometry Reporting Feature Descriptor (continued)
+2026-01-09 23:57:42,596 - INFO -   📊 Prompt size: ~245 tokens
+2026-01-10 00:00:33,426 - INFO -   📊 Response size: ~628 tokens, Total context: ~873 tokens
+2026-01-10 00:00:33,427 - INFO -   ✅ Saved: page_0023.md (170.8s)
+2026-01-10 00:00:33,427 - INFO - Processing page 24...
+2026-01-10 00:00:33,563 - INFO -   📋 Previous page has table: Table 7
+2026-01-10 00:00:33,563 - INFO -   📊 Prompt size: ~209 tokens
+2026-01-10 00:02:04,136 - INFO -   📊 Response size: ~479 tokens, Total context: ~688 tokens
+2026-01-10 00:02:04,137 - INFO -   ✅ Saved: page_0024.md (90.6s)
+2026-01-10 00:02:04,137 - INFO - Processing page 25...
+2026-01-10 00:02:04,256 - INFO -   📋 Previous page has table: Table 7 - SSC Minor Versions
+2026-01-10 00:02:04,257 - INFO -   📊 Prompt size: ~220 tokens
+2026-01-10 00:04:35,102 - INFO -   📊 Response size: ~535 tokens, Total context: ~755 tokens
+2026-01-10 00:04:35,104 - INFO -   ✅ Saved: page_0025.md (150.8s)
+2026-01-10 00:04:35,104 - INFO - Processing page 26...
+2026-01-10 00:04:35,260 - INFO -   📋 Previous page has table: Table 8 - Level 0 Discovery – Supported Data Removal Mechanism Feature Descriptor
+2026-01-10 00:04:35,261 - INFO -   📊 Prompt size: ~246 tokens
+2026-01-10 00:05:58,927 - INFO -   📊 Response size: ~505 tokens, Total context: ~751 tokens
+2026-01-10 00:05:58,928 - INFO -   ✅ Saved: page_0026.md (83.7s)
+2026-01-10 00:05:58,928 - INFO - Processing page 27...
+2026-01-10 00:05:59,076 - INFO -   📋 Previous page has table: Table 8 - Level 0 Discovery – Supported Data Removal Mechanism Feature Descriptor (continued)
+2026-01-10 00:05:59,077 - INFO -   📊 Prompt size: ~252 tokens
+2026-01-10 00:09:02,411 - INFO -   📊 Response size: ~1254 tokens, Total context: ~1506 tokens
+2026-01-10 00:09:02,413 - INFO -   ✅ Saved: page_0027.md (183.3s)
+2026-01-10 00:09:02,413 - INFO - Processing page 28...
+2026-01-10 00:09:02,547 - INFO -   📋 Previous page has table: Table 10 - Supported Data Removal Mechanism
+2026-01-10 00:09:02,548 - INFO -   📊 Prompt size: ~227 tokens
+2026-01-10 00:18:29,964 - INFO -   📊 Response size: ~1853 tokens, Total context: ~2080 tokens
+2026-01-10 00:18:29,966 - INFO -   ✅ Saved: page_0028.md (567.4s)
+2026-01-10 00:18:29,966 - INFO - Processing page 29...
+2026-01-10 00:18:30,105 - INFO -   📋 Previous page has table: Table 12 - Data Removal Time (Data Removal Time Format bit= 1)
+2026-01-10 00:18:30,105 - INFO -   📊 Prompt size: ~237 tokens
+2026-01-10 00:20:31,141 - INFO -   📊 Response size: ~735 tokens, Total context: ~972 tokens
+2026-01-10 00:20:31,142 - INFO -   ✅ Saved: page_0029.md (121.0s)
+2026-01-10 00:20:31,142 - INFO - Processing page 30...
+2026-01-10 00:20:31,345 - INFO -   📋 Previous page has table: Table 13 - TPER_RESET Command
+2026-01-10 00:20:31,346 - INFO -   📊 Prompt size: ~220 tokens
+2026-01-10 00:22:13,159 - INFO -   📊 Response size: ~498 tokens, Total context: ~718 tokens
+2026-01-10 00:22:13,160 - INFO -   ✅ Saved: page_0030.md (101.8s)
+2026-01-10 00:22:13,161 - INFO - Processing page 31...
+2026-01-10 00:22:13,296 - INFO -   📋 Previous page has table: Table 15 - Supported Tokens
+2026-01-10 00:22:13,296 - INFO -   📊 Prompt size: ~219 tokens
+2026-01-10 00:23:49,377 - INFO -   📊 Response size: ~586 tokens, Total context: ~805 tokens
+2026-01-10 00:23:49,378 - INFO -   ✅ Saved: page_0031.md (96.1s)
+2026-01-10 00:23:49,378 - INFO - Processing page 32...
+2026-01-10 00:23:49,513 - INFO -   📋 Previous page has table: Table 15 - Supported Tokens (continued)
+2026-01-10 00:23:49,513 - INFO -   📊 Prompt size: ~225 tokens
+2026-01-10 00:24:29,539 - INFO -   📊 Response size: ~218 tokens, Total context: ~443 tokens
+2026-01-10 00:24:29,541 - INFO -   ✅ Saved: page_0032.md (40.0s)
+2026-01-10 00:24:29,541 - INFO - ⏭️  Page 33 already exists, skipping...
+2026-01-10 00:24:29,541 - INFO - ⏭️  Page 34 already exists, skipping...
+2026-01-10 00:24:29,541 - INFO - ⏭️  Page 35 already exists, skipping...
+2026-01-10 00:24:29,543 - INFO - ⏭️  Page 36 already exists, skipping...
+2026-01-10 00:24:29,544 - INFO - ⏭️  Page 37 already exists, skipping...
+2026-01-10 00:24:29,544 - INFO - Processing page 38...
+2026-01-10 00:24:29,671 - INFO -   📋 Previous page has table: Table 20 - Admin SP - Table Table Preconfiguration (continued)
+2026-01-10 00:24:29,671 - INFO -   📊 Prompt size: ~237 tokens
+2026-01-10 00:27:02,234 - INFO -   📊 Response size: ~503 tokens, Total context: ~740 tokens
+2026-01-10 00:27:02,235 - INFO -   ✅ Saved: page_0038.md (152.6s)
+2026-01-10 00:27:02,235 - INFO - Processing page 39...
+2026-01-10 00:27:02,372 - INFO -   📋 Previous page has table: Table 21 - Admin SP - MethodID Table Preconfiguration
+2026-01-10 00:27:02,372 - INFO -   📊 Prompt size: ~232 tokens
