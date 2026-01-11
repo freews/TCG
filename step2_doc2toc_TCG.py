@@ -1,3 +1,7 @@
+# md file 폴더를 읽고 문서의 목차를 section 정보와 함께 list 한다
+# 원래 문서의 toc (table of content) 부분과 불필요한 부부은 page skip option으로 제외한다
+# PDF meta data toc를 읽고 section 정보를 추출한다 없는 경우 문서를 직접 파싱하여 section 정보를 추출한다
+
 import pymupdf
 import json
 import re
