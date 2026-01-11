@@ -47,6 +47,18 @@ def generate_summary(section_data):
     if total_content_length < 200:
         return content if content else "(내용 없음)"
     
+    # claude_pytest.py 파일 내용 읽기 (참고용)
+    pytest_example = ""
+    pytest_file_path = "./claude_pytest.py"
+    try:
+        if os.path.exists(pytest_file_path):
+            with open(pytest_file_path, 'r', encoding='utf-8') as f:
+                pytest_content = f.read()
+                # 파일이 너무 크면 앞부분만 사용 (약 3000자, ~750 토큰)
+                pytest_example = f"\n\n### 참고: claude_pytest.py 예시 코드 (테스트 작성 시 참고):\n```python\n{pytest_content[:]}\n... (생략)\n```\n"
+    except Exception as e:
+        logger.warning(f"claude_pytest.py 파일 읽기 실패: {e}")
+    
     # 프롬프트 구성
     prompt = f"""당신은 TCG/OPAL 보안 전문가입니다.
 TCG-Storage-Opal-SSC-v2.30_pub.pdf 문서의 내용을 section 별로 제공합니다.
@@ -56,10 +68,13 @@ TCG-Storage-Opal-SSC-v2.30_pub.pdf 문서의 내용을 section 별로 제공합�
 목적, 주요 기능, 데이터 구조, 요구사항, 보안 메커니즘에 초점을 맞춰주세요.
 
 문서에서 언급한 spec을 검증할 수 있는 Test Case를 제시해주세요.
-- Python과 pytest를 사용한 테스트 코드 예시
-- TCG Opal 명령어(StartSession, Revert, etc.)를 사용한 검증 방법
+- Python과 pytest를 사용한 테스트 코드 예시 (아래 claude_pytest.py 파일을 참고하여 작성)
+- TCG Opal 명령어(StartSession, Revert, GenKey, Random 등)를 사용한 검증 방법
+- TCGOpalTester 클래스와 TCGPayloadBuilder 같은 헬퍼 클래스 활용
+- Security Protocol 명령(security_send/security_receive) 사용 예시
+- Level 0 Discovery, Feature Descriptor 파싱 등의 검증 방법
 - 테이블 데이터 검증 방법
-
+{pytest_example}
 section 내용이 없거나 설명할 사항이 없으면 "내용없음"으로 출력하세요.
 
 ### 본문:
@@ -88,7 +103,7 @@ section 내용이 없거나 설명할 사항이 없으면 "내용없음"으로 �
         "stream": False,
         "options": {
             "temperature": 0.7,
-            "num_ctx": 8192,        # 컨텍스트 윈도우 (메모리 안정성)
+            "num_ctx": 16384,        # 컨텍스트 윈도우 (메모리 안정성)
             "num_batch": 256,       # 배치 크기 (작을수록 안정적)
             "num_predict": 4096,    # 최대 생성 토큰 수
             "num_thread": 6         # CPU 스레드 수
@@ -139,20 +154,30 @@ def main():
         id = section.get('section_id', 'Unknown')
         start_page = section.get('start_page', 0)
         
-        # Skip pages 4-11 (불필요한 페이지)
-        if 4 <= start_page <= 11:
-            logger.info(f"[{i+1}/{total_sections}] 건너뛰기: {id}:{t} (Page {start_page})")
+        # Skip Cover, empty section_id, and section 1 (section 2부터 시작)
+        # - Cover: section_id == "Cover"
+        # - 빈 section_id: DISCLAIMERS, ACKNOWLEDGEMENT 등
+        # - Section 1 및 하위: "1", "1.3.4", "1.4", "1.5" 등
+        if not id or id == "Cover" or id == '1' or id.startswith('1.'):
+            logger.info(f"[{i+1}/{total_sections}] 건너뛰기: [{id}] {t} (Section 2 이전)")
+            skipped += 1
             continue
         
-        # 이미 요약된 경우 건너뛰기 (resume 기능)
-        existing_summary = section.get('summary', '').strip()
-        if existing_summary and existing_summary != "(내용 없음)":
+        # Skip pages 4-11 (불필요한 페이지)
+        if 4 <= start_page <= 11:
+            logger.info(f"[{i+1}/{total_sections}] 건너뛰기: [{id}] {t} (Page {start_page})")
             skipped += 1
-            logger.info(f"[{i+1}/{total_sections}] ⏭️  이미 요약됨: {id}:{t}")
             continue
+        
+        # # 이미 요약된 경우 건너뛰기 (resume 기능)
+        # existing_summary = section.get('summary', '').strip()
+        # if existing_summary and existing_summary != "(내용 없음)":
+        #     skipped += 1
+        #     logger.info(f"[{i+1}/{total_sections}] ⏭️  이미 요약됨: [{id}] {t}")
+        #     continue
 
         # 요약 생성
-        logger.info(f"[{i+1}/{total_sections}] 요약 생성 중: {id}:{t}")
+        logger.info(f"[{i+1}/{total_sections}] 요약 생성 중: [{id}] {t}")
         
         # 섹션 정보 출력
         num_tables = len(section.get('section_table_list', []))
