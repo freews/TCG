@@ -71,9 +71,7 @@ TCG-Storage-Opal-SSC-v2.30_pub.pdf 문서의 내용을 section 별로 제공합�
 - Python과 pytest를 사용한 테스트 코드 예시 (아래 claude_pytest.py 파일을 참고하여 작성)
 - TCG Opal 명령어(StartSession, Revert, GenKey, Random 등)를 사용한 검증 방법
 - TCGOpalTester 클래스와 TCGPayloadBuilder 같은 헬퍼 클래스 활용
-- Security Protocol 명령(security_send/security_receive) 사용 예시
-- Level 0 Discovery, Feature Descriptor 파싱 등의 검증 방법
-- 테이블 데이터 검증 방법
+
 {pytest_example}
 section 내용이 없거나 설명할 사항이 없으면 "내용없음"으로 출력하세요.
 
@@ -103,7 +101,7 @@ section 내용이 없거나 설명할 사항이 없으면 "내용없음"으로 �
         "stream": False,
         "options": {
             "temperature": 0.7,
-            "num_ctx": 16384,        # 컨텍스트 윈도우 (메모리 안정성)
+            "num_ctx": 32768,        # 컨텍스트 윈도우 (메모리 안정성)
             "num_batch": 256,       # 배치 크기 (작을수록 안정적)
             "num_predict": 4096,    # 최대 생성 토큰 수
             "num_thread": 6         # CPU 스레드 수
@@ -118,7 +116,7 @@ section 내용이 없거나 설명할 사항이 없으면 "내용없음"으로 �
     try:
         # LLM 호출 (시간 측정)
         start_time = time.time()
-        response = requests.post(f"{OLLAMA_BASE_URL}/api/generate", json=payload, timeout=600)
+        response = requests.post(f"{OLLAMA_BASE_URL}/api/generate", json=payload, timeout=1800)
         response.raise_for_status()
         process_time = time.time() - start_time
         
