@@ -12,8 +12,12 @@ pdf_path = "./TCG-Storage-Opal-SSC-v2.30_pub.pdf"
 md_folder = "./tcg_output/md"  # MD 파일이 있는 폴더 (step1 출력)
 output_path = "./tcg_output/pdf_structure.json"
 
-def extract_structure_from_toc():
-    """PDF의 TOC 메타데이터에서 구조 추출 (기존 방식)"""
+def extract_structure_from_toc(skip_pages=(2, 11)):
+    """PDF의 TOC 메타데이터에서 구조 추출 (기존 방식)
+    
+    Args:
+        skip_pages: (start, end) tuple of page numbers to skip (inclusive)
+    """
     try:
         if not os.path.exists(pdf_path):
             logger.error(f"PDF file not found at: {pdf_path}")
@@ -47,8 +51,8 @@ def extract_structure_from_toc():
         for i, entry in enumerate(toc):
             lvl, title, page_num = entry
             
-            # Skip pages 4-11 (불필요한 페이지)
-            if 4 <= page_num <= 11:
+            # Skip specified pages (front matter 및 불필요한 페이지)
+            if skip_pages and skip_pages[0] <= page_num <= skip_pages[1]:
                 continue
 
             match = id_pattern.match(title)
@@ -58,6 +62,11 @@ def extract_structure_from_toc():
             else:
                 sec_id = "" 
                 sec_title = title
+
+            # Skip entries with no section_id and generic single-word titles (likely table headers)
+            if not sec_id and len(sec_title.split()) == 1:
+                logger.warning(f"Skipping likely table header: '{sec_title}' on page {page_num}")
+                continue
 
             if sec_title and sec_title[0].islower() and not sec_id:
                 continue
@@ -97,8 +106,12 @@ def extract_structure_from_toc():
         return None
 
 
-def extract_structure_from_md():
-    """MD 파일에서 직접 섹션 구조 추출 (TOC 없을 때)"""
+def extract_structure_from_md(skip_pages=(2, 11)):
+    """MD 파일에서 직접 섹션 구조 추출 (TOC 없을 때)
+    
+    Args:
+        skip_pages: (start, end) tuple of page numbers to skip (inclusive)
+    """
     try:
         if not os.path.exists(md_folder):
             logger.error(f"MD folder not found at: {md_folder}")
@@ -124,8 +137,8 @@ def extract_structure_from_md():
             
             page_num = int(page_match.group(1))
             
-            # 4-11 페이지 건너뛰기 (불필요한 페이지)
-            if 4 <= page_num <= 11:
+            # Skip specified pages (front matter 및 불필요한 페이지)
+            if skip_pages and skip_pages[0] <= page_num <= skip_pages[1]:
                 continue
             
             md_path = os.path.join(md_folder, md_file)
@@ -188,17 +201,25 @@ def extract_structure_from_md():
         return None
 
 
-def extract_structure():
-    """구조 추출 메인 함수 (TOC 우선, 없으면 MD에서 추출)"""
+def extract_structure(skip_pages=(2, 11)):
+    """구조 추출 메인 함수 (TOC 우선, 없으면 MD에서 추출)
+    
+    Args:
+        skip_pages: (start, end) tuple of page numbers to skip (inclusive). 
+                    Set to None to skip no pages.
+    """
     
     # 1. TOC 메타데이터에서 추출 시도
-    logger.info("=== Attempting TOC extraction ===")
-    structure = extract_structure_from_toc()
+    if skip_pages:
+        logger.info(f"=== Attempting TOC extraction (skipping pages {skip_pages[0]}-{skip_pages[1]}) ===")
+    else:
+        logger.info("=== Attempting TOC extraction (no pages skipped) ===")
+    structure = extract_structure_from_toc(skip_pages=skip_pages)
     
     # 2. TOC 실패 시 MD 파일에서 추출
     if structure is None or len(structure) <= 1:
         logger.info("=== Falling back to MD extraction ===")
-        structure = extract_structure_from_md()
+        structure = extract_structure_from_md(skip_pages=skip_pages)
     
     # 3. 결과 저장
     if structure and len(structure) > 0:
@@ -216,4 +237,4 @@ def extract_structure():
 
 
 if __name__ == "__main__":
-    extract_structure()
+    extract_structure(skip_pages=(2, 11))   page skip from ~ to 

@@ -19,26 +19,9 @@ LOG_FILE = "./tcg_output/step1_base.log"
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL = "qwen3-vl:32b-instruct-q4_K_M"
 
-# # 로그 설정: 파일과 콘솔 모두에 출력
-# os.makedirs("./tcg_output", exist_ok=True)
-# logger = logging.getLogger(__name__)
-# logger.setLevel(logging.INFO)
+# Crop 설정: True이면 헤더/푸터 제거, False이면 전체 페이지 사용
+USE_CROP = True
 
-# # 파일 핸들러 (로그 파일에 저장)
-# file_handler = logging.FileHandler(LOG_FILE, mode='a', encoding='utf-8')
-# file_handler.setLevel(logging.INFO)
-# file_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-# file_handler.setFormatter(file_formatter)
-
-# # 콘솔 핸들러 (터미널에 출력)
-# console_handler = logging.StreamHandler()
-# console_handler.setLevel(logging.INFO)
-# console_formatter = logging.Formatter('%(levelname)s - %(message)s')
-# console_handler.setFormatter(console_formatter)
-
-# # 핸들러 추가
-# logger.addHandler(file_handler)
-# logger.addHandler(console_handler)
 
 
 def create_prompt(last_table_info: str = None) -> str:
@@ -180,8 +163,14 @@ def fix_table_separator(content: str) -> str:
 # Core Functions
 # ==========================================
 
-def pdf_to_png(pdf_path: str, page_num: int) -> str:
-    """단일 페이지를 PNG로 변환 (헤더/푸터 제거)"""
+def pdf_to_png(pdf_path: str, page_num: int, use_crop: bool = True) -> str:
+    """단일 페이지를 PNG로 변환
+    
+    Args:
+        pdf_path: PDF 파일 경로
+        page_num: 페이지 번호 (1-based)
+        use_crop: True이면 헤더/푸터 제거, False이면 전체 페이지 사용
+    """
     doc = fitz.open(pdf_path)
     page = doc[page_num - 1]
     pix = page.get_pixmap(dpi=200)
@@ -192,17 +181,21 @@ def pdf_to_png(pdf_path: str, page_num: int) -> str:
     img_data = pix.tobytes("png")
     img = Image.open(io.BytesIO(img_data))
     
-    # 헤더/푸터 영역 크롭 (DPI 200 기준)
-    # 원본 PDF 좌표: header y=0~58, footer y=965~
-    # DPI 200 변환 (×2.78): header ~161px, footer ~2682px
-    width, height = img.size
-    crop_top = 180  # 헤더 제거 (여유있게)
-    crop_bottom = height - 100  # 푸터 제거 (넉넉하게)
-    
-    img_cropped = img.crop((0, crop_top, width, crop_bottom))
+    # 헤더/푸터 영역 크롭 (선택적)
+    if use_crop:
+        # 원본 PDF 좌표: header y=0~58, footer y=965~
+        # DPI 200 변환 (×2.78): header ~161px, footer ~2682px
+        width, height = img.size
+        crop_top = 180  # 헤더 제거 (여유있게)
+        crop_bottom = height - 100  # 푸터 제거 (넉넉하게)
+        
+        img_cropped = img.crop((0, crop_top, width, crop_bottom))
+        png_dir = "./tcg_output/png_crop"
+    else:
+        img_cropped = img
+        png_dir = "./tcg_output/png_full"
     
     # PNG 저장 (디렉토리 생성)
-    png_dir = "./tcg_output/png_crop"
     os.makedirs(png_dir, exist_ok=True)
     png_path = f"{png_dir}/page_{page_num:04d}.png"
     img_cropped.save(png_path)
@@ -243,8 +236,14 @@ def call_llm(image_path: str, prompt: str) -> str:
     
     return result
 
-def process_page(page_num: int, prev_md: str = None) -> str:
-    """페이지 처리 (에러 처리 포함)"""
+def process_page(page_num: int, prev_md: str = None, use_crop: bool = True) -> str:
+    """페이지 처리 (에러 처리 포함)
+    
+    Args:
+        page_num: 페이지 번호
+        prev_md: 이전 페이지 마크다운 내용
+        use_crop: 헤더/푸터 크롭 적용 여부
+    """
     import time
     import traceback
     
@@ -252,7 +251,7 @@ def process_page(page_num: int, prev_md: str = None) -> str:
     
     try:
         # PNG 변환
-        png_path = pdf_to_png(PDF_PATH, page_num)
+        png_path = pdf_to_png(PDF_PATH, page_num, use_crop=use_crop)
         
         # 이전 페이지에 테이블이 있으면 테이블 이름 추출
         last_table_info = None
@@ -308,9 +307,15 @@ def process_page(page_num: int, prev_md: str = None) -> str:
 # Main
 # ==========================================
 
-def main():
+def main(use_crop: bool = True):
+    """메인 함수
+    
+    Args:
+        use_crop: True이면 헤더/푸터 크롭 적용, False이면 전체 페이지 사용
+    """
     print("="*70)
     print("TCG PARSER - ULTRA SIMPLE VERSION")
+    print(f"Crop Mode: {'ENABLED (header/footer removed)' if use_crop else 'DISABLED (full page)'}")
     print("="*70)
     
     # 페이지 범위
@@ -337,7 +342,7 @@ def main():
                 prev_md = prev_page_path.read_text(encoding='utf-8')
         
         # 페이지 처리
-        md_content = process_page(page_num, prev_md)
+        md_content = process_page(page_num, prev_md, use_crop=use_crop)
         prev_md = md_content  # 다음 페이지를 위해 저장
     
     print("="*70)
@@ -345,4 +350,4 @@ def main():
     print("="*70)
 
 if __name__ == "__main__":
-    main()
+    main(use_crop=USE_CROP)
