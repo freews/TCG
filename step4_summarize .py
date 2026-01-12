@@ -42,25 +42,45 @@ def generate_summary(section_data):
     image_names = section_data.get('section_image_name_list', [])
     images_base64 = section_data.get('section_image', [])
     
-    # 콘텐츠가 너무 짧으면 그대로 반환
+    # 1. 콘텐츠가 없는 경우: LLM 호출 없이 바로 반환
     total_content_length = len(content) + sum(len(str(t)) for t in table_data)
-    if total_content_length < 200:
-        return content if content else "(내용 없음)"
+    if total_content_length == 0:
+        logger.info(f"  ⚠️  내용 없음 - LLM 호출 생략")
+        return "내용없음"
     
-    # claude_pytest.py 파일 내용 읽기 (참고용)
-    pytest_example = ""
-    pytest_file_path = "./claude_pytest.py"
-    try:
-        if os.path.exists(pytest_file_path):
-            with open(pytest_file_path, 'r', encoding='utf-8') as f:
-                pytest_content = f.read()
-                # 파일이 너무 크면 앞부분만 사용 (약 3000자, ~750 토큰)
-                pytest_example = f"\n\n### 참고: claude_pytest.py 예시 코드 (테스트 작성 시 참고):\n```python\n{pytest_content[:]}\n... (생략)\n```\n"
-    except Exception as e:
-        logger.warning(f"claude_pytest.py 파일 읽기 실패: {e}")
+    # 2. 콘텐츠가 짧은 경우 (200자 미만): 번역만 요청
+    is_short_content = total_content_length < 200
+
     
     # 프롬프트 구성
-    prompt = f"""당신은 TCG/OPAL 보안 전문가입니다.
+    if is_short_content:
+        # 짧은 내용: 번역만 요청
+        logger.info(f"  📝 짧은 내용 - 번역 요청")
+        prompt = f"""아래 내용을 한국어로 번역해주세요.
+
+섹션: {section_id} - {section_title}
+
+### 본문:
+{content}
+
+{format_tables_for_prompt(table_names, table_data)}
+
+한국어 번역:"""
+    else:
+        # 긴 내용: 전체 요약 및 테스트 케이스 생성
+        # claude_pytest.py 파일 내용 읽기 (참고용)
+        pytest_example = ""
+        pytest_file_path = "./claude_pytest.py"
+        try:
+            if os.path.exists(pytest_file_path):
+                with open(pytest_file_path, 'r', encoding='utf-8') as f:
+                    pytest_content = f.read()
+                    # 파일이 너무 크면 앞부분만 사용 (약 3000자, ~750 토큰)
+                    pytest_example = f"\n\n### 참고: claude_pytest.py 예시 코드 (테스트 작성 시 참고):\n```python\n{pytest_content[:]}\n... (생략)\n```\n"
+        except Exception as e:
+            logger.warning(f"claude_pytest.py 파일 읽기 실패: {e}")
+        
+        prompt = f"""당신은 TCG/OPAL 보안 전문가입니다.
 TCG-Storage-Opal-SSC-v2.30_pub.pdf 문서의 내용을 section 별로 제공합니다.
 섹션: {section_id} - {section_title}
 
@@ -82,13 +102,13 @@ section 내용이 없거나 설명할 사항이 없으면 "내용없음"으로 �
 
 ### 이미지:
 """
-    
-    if image_names:
-        prompt += f"{len(image_names)}개의 이미지/다이어그램이 포함되어 있습니다: {', '.join(image_names)}\n"
-    else:
-        prompt += "이미지 없음\n"
-    
-    prompt += "\n요약 (한국어, 상세하게):"
+        
+        if image_names:
+            prompt += f"{len(image_names)}개의 이미지/다이어그램이 포함되어 있습니다: {', '.join(image_names)}\n"
+        else:
+            prompt += "이미지 없음\n"
+        
+        prompt += "\n요약 (한국어, 상세하게):"
     
     # 토큰 수 추정 (대략 1 토큰 = 4 글자)
     prompt_tokens = len(prompt) // 4

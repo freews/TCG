@@ -169,7 +169,10 @@ def pdf_to_png(pdf_path: str, page_num: int, use_crop: bool = True) -> str:
     Args:
         pdf_path: PDF 파일 경로
         page_num: 페이지 번호 (1-based)
-        use_crop: True이면 헤더/푸터 제거, False이면 전체 페이지 사용
+        use_crop: True이면 헤더/푸터 제거된 이미지 경로 반환, False이면 전체 페이지 경로 반환
+        
+    Note:
+        항상 Full과 Crop 이미지를 모두 생성하며, Full 이미지는 html/PNG 디렉토리에도 복사됨
     """
     doc = fitz.open(pdf_path)
     page = doc[page_num - 1]
@@ -178,30 +181,37 @@ def pdf_to_png(pdf_path: str, page_num: int, use_crop: bool = True) -> str:
     # PIL Image로 변환
     from PIL import Image
     import io
+    import shutil
     img_data = pix.tobytes("png")
-    img = Image.open(io.BytesIO(img_data))
+    img_full = Image.open(io.BytesIO(img_data))
     
-    # 헤더/푸터 영역 크롭 (선택적)
-    if use_crop:
-        # 원본 PDF 좌표: header y=0~58, footer y=965~
-        # DPI 200 변환 (×2.78): header ~161px, footer ~2682px
-        width, height = img.size
-        crop_top = 180  # 헤더 제거 (여유있게)
-        crop_bottom = height - 100  # 푸터 제거 (넉넉하게)
-        
-        img_cropped = img.crop((0, crop_top, width, crop_bottom))
-        png_dir = "./tcg_output/png_crop"
-    else:
-        img_cropped = img
-        png_dir = "./tcg_output/png_full"
+    # 1. Full 이미지 저장
+    png_full_dir = "./tcg_output/png_full"
+    os.makedirs(png_full_dir, exist_ok=True)
+    png_full_path = f"{png_full_dir}/page_{page_num:04d}.png"
+    img_full.save(png_full_path)
     
-    # PNG 저장 (디렉토리 생성)
-    os.makedirs(png_dir, exist_ok=True)
-    png_path = f"{png_dir}/page_{page_num:04d}.png"
-    img_cropped.save(png_path)
+    # 2. Full 이미지를 html/PNG 디렉토리에 복사
+    html_png_dir = "./tcg_output/html/PNG"
+    os.makedirs(html_png_dir, exist_ok=True)
+    html_png_path = f"{html_png_dir}/page_{page_num:04d}.png"
+    shutil.copy2(png_full_path, html_png_path)
+    
+    # 3. Crop 이미지 생성 및 저장
+    width, height = img_full.size
+    crop_top = 180  # 헤더 제거 (여유있게)
+    crop_bottom = height - 100  # 푸터 제거 (넉넉하게)
+    img_cropped = img_full.crop((0, crop_top, width, crop_bottom))
+    
+    png_crop_dir = "./tcg_output/png_crop"
+    os.makedirs(png_crop_dir, exist_ok=True)
+    png_crop_path = f"{png_crop_dir}/page_{page_num:04d}.png"
+    img_cropped.save(png_crop_path)
+    
     doc.close()
     
-    return png_path
+    # use_crop 설정에 따라 적절한 경로 반환
+    return png_crop_path if use_crop else png_full_path
 
 def call_llm(image_path: str, prompt: str) -> str:
     """LLM 호출"""

@@ -1,0 +1,3817 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCG Storage Opal SSC 문서</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background: white;
+        }
+        
+        /* 좌측 사이드바 */
+        .sidebar {
+            width: 350px;
+            background: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .sidebar-header h1 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        
+        .search-box {
+            padding: 15px;
+            background: white;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .section-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .section-tree {
+            list-style: none;
+        }
+        
+        .subsection {
+            list-style: none;
+            margin-left: 20px;
+        }
+        
+        .section-item {
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 2px 0;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-item:hover {
+            background: #e9ecef;
+        }
+        
+        .section-tree > li.active > .section-item,
+        .subsection > li.active > .section-item {
+            background: #667eea;
+            color: white;
+        }
+        
+        .section-number {
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 50px;
+            text-align: center;
+        }
+        
+        .active .section-number {
+            background: white;
+            color: #667eea;
+        }
+        
+        .section-title {
+            flex: 1;
+            font-size: 14px;
+        }
+        
+        /* 메인 컨텐츠 */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .content-header {
+            padding: 20px 30px;
+            background: white;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .content-header h2 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .content-meta {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .content-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+        
+        .summary-section {
+            background: #f0f8ff;
+            padding: 25px;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-section h3 {
+            color: #2980b9;
+            margin-bottom: 15px;
+        }
+        
+        .content-section {
+            margin-top: 30px;
+        }
+        
+        .content-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        /* 페이지 이미지 스타일 */
+        .page-image {
+            margin: 30px 0;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .page-image h4 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .page-image img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .page-image img:hover {
+            transform: scale(1.02);
+        }
+
+        
+        /* 표 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 10px;
+            border: 1px solid #dee2e6;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        /* 코드 스타일 */
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        /* 웰컴 메시지 */
+        .welcome {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+        }
+        
+        .welcome h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 좌측 사이드바 -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>📚 TCG Opal SSC</h1>
+            <p>섹션별 요약 및 내용</p>
+        </div>
+        
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 섹션 검색..." onkeyup="searchSections()">
+        </div>
+        
+        <div class="section-list" id="sectionList">
+            <ul class="section-tree"><ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('section_0')">
+                    <span class="section-number">0</span>
+                    <span class="section-title">About This Document</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('Cover')">
+                    <span class="section-number">Cover</span>
+                    <span class="section-title">Cover</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('1_3_4')">
+                    <span class="section-number">1.3.4</span>
+                    <span class="section-title">Cell Shading and Font Legend for Preconfiguration Tables</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('1_3_5')">
+                    <span class="section-number">1.3.5</span>
+                    <span class="section-title">List Conventions</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('1_3_5_1')">
+                    <span class="section-number">1.3.5.1</span>
+                    <span class="section-title">Lists Overview</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('1_3_5_2')">
+                    <span class="section-number">1.3.5.2</span>
+                    <span class="section-title">Unordered Lists</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('1_3_5_3')">
+                    <span class="section-number">1.3.5.3</span>
+                    <span class="section-title">Ordered Lists</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('1_3_6')">
+                    <span class="section-number">1.3.6</span>
+                    <span class="section-title">Numbering Conventions</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('1_3_7')">
+                    <span class="section-number">1.3.7</span>
+                    <span class="section-title">Bit Conventions</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('1_3_8')">
+                    <span class="section-number">1.3.8</span>
+                    <span class="section-title">Number Range Conventions</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('1_3_9')">
+                    <span class="section-number">1.3.9</span>
+                    <span class="section-title">Specify and Indicate Conventions</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('1_4')">
+                    <span class="section-number">1.4</span>
+                    <span class="section-title">Document References</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('1_4_1')">
+                    <span class="section-number">1.4.1</span>
+                    <span class="section-title">Document Precedence</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('1_4_2')">
+                    <span class="section-number">1.4.2</span>
+                    <span class="section-title">Approved References</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('1_4_3')">
+                    <span class="section-number">1.4.3</span>
+                    <span class="section-title">References Under Development</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('1_5')">
+                    <span class="section-number">1.5</span>
+                    <span class="section-title">Dependencies on Other Feature Sets</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('1_6')">
+                    <span class="section-number">1.6</span>
+                    <span class="section-title">Interactions with Other Feature Sets</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('1_7')">
+                    <span class="section-number">1.7</span>
+                    <span class="section-title">Definition of Terms</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('2')">
+                    <span class="section-number">2</span>
+                    <span class="section-title">Opal SSC Overview</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('2_1')">
+                    <span class="section-number">2.1</span>
+                    <span class="section-title">Opal SSC Use Cases and Threats</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('2_2')">
+                    <span class="section-number">2.2</span>
+                    <span class="section-title">Security Providers (SPs)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('2_3')">
+                    <span class="section-number">2.3</span>
+                    <span class="section-title">Interface Communication Protocol</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('2_4')">
+                    <span class="section-number">2.4</span>
+                    <span class="section-title">Cryptographic Features</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('2_5')">
+                    <span class="section-number">2.5</span>
+                    <span class="section-title">Authentication</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('2_6')">
+                    <span class="section-number">2.6</span>
+                    <span class="section-title">Table Management</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('2_7')">
+                    <span class="section-number">2.7</span>
+                    <span class="section-title">Access Control & Personalization</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('2_8')">
+                    <span class="section-number">2.8</span>
+                    <span class="section-title">Issuance</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('2_9')">
+                    <span class="section-number">2.9</span>
+                    <span class="section-title">SSC Discovery</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('2_10')">
+                    <span class="section-number">2.10</span>
+                    <span class="section-title">Mandatory Feature Sets</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('3')">
+                    <span class="section-number">3</span>
+                    <span class="section-title">Opal SSC Features</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('3_1')">
+                    <span class="section-number">3.1</span>
+                    <span class="section-title">Security Protocol 1 Support</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1')">
+                    <span class="section-number">3.1.1</span>
+                    <span class="section-title">Level 0 Discovery (M)</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_1')">
+                    <span class="section-number">3.1.1.1</span>
+                    <span class="section-title">Level 0 Discovery Header</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_2')">
+                    <span class="section-number">3.1.1.2</span>
+                    <span class="section-title">TPer Feature (Feature Code = 0x0001)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_3')">
+                    <span class="section-number">3.1.1.3</span>
+                    <span class="section-title">Locking Feature (Feature Code = 0x0002)</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_3_1')">
+                    <span class="section-number">3.1.1.3.1</span>
+                    <span class="section-title">LockingEnabled Definition</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_4')">
+                    <span class="section-number">3.1.1.4</span>
+                    <span class="section-title">Geometry Reporting Feature (Feature Code = 0x0003)</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_4_1')">
+                    <span class="section-number">3.1.1.4.1</span>
+                    <span class="section-title">Overview</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_4_2')">
+                    <span class="section-number">3.1.1.4.2</span>
+                    <span class="section-title">ALIGN</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_4_3')">
+                    <span class="section-number">3.1.1.4.3</span>
+                    <span class="section-title">LogicalBlockSize</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_4_4')">
+                    <span class="section-number">3.1.1.4.4</span>
+                    <span class="section-title">AlignmentGranularity</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_4_5')">
+                    <span class="section-number">3.1.1.4.5</span>
+                    <span class="section-title">LowestAlignedLBA</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_5')">
+                    <span class="section-number">3.1.1.5</span>
+                    <span class="section-title">Opal SSC V2 Feature (Feature Code = 0x0203)</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_5_1')">
+                    <span class="section-number">3.1.1.5.1</span>
+                    <span class="section-title">Base ComID</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_5_2')">
+                    <span class="section-number">3.1.1.5.2</span>
+                    <span class="section-title">Number of ComIDs</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_6')">
+                    <span class="section-number">3.1.1.6</span>
+                    <span class="section-title">Supported Data Removal Mechanism Feature (Feature Code = 0x0404)</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_6_1')">
+                    <span class="section-number">3.1.1.6.1</span>
+                    <span class="section-title">Data Removal Operation Processing Definition</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_6_2')">
+                    <span class="section-number">3.1.1.6.2</span>
+                    <span class="section-title">Data Removal Operation Interrupted</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_6_3')">
+                    <span class="section-number">3.1.1.6.3</span>
+                    <span class="section-title">Supported Data Removal Mechanism Definition</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_1_1_6_4')">
+                    <span class="section-number">3.1.1.6.4</span>
+                    <span class="section-title">Data Removal Time Format and Data Removal Time Definition</span>
+                </div>
+            </ul></li></ul></li></ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_2')">
+                    <span class="section-number">3.2</span>
+                    <span class="section-title">Security Protocol 2 Support</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('3_2_1')">
+                    <span class="section-number">3.2.1</span>
+                    <span class="section-title">ComID Management</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_2_2')">
+                    <span class="section-number">3.2.2</span>
+                    <span class="section-title">Stack Protocol Reset (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_2_3')">
+                    <span class="section-number">3.2.3</span>
+                    <span class="section-title">TPER_RESET command (M)</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_3')">
+                    <span class="section-number">3.3</span>
+                    <span class="section-title">Communications</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('3_3_1')">
+                    <span class="section-number">3.3.1</span>
+                    <span class="section-title">Communication Properties</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_3_2')">
+                    <span class="section-number">3.3.2</span>
+                    <span class="section-title">Supported Security Protocols</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_3_3')">
+                    <span class="section-number">3.3.3</span>
+                    <span class="section-title">ComIDs</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_3_4')">
+                    <span class="section-number">3.3.4</span>
+                    <span class="section-title">Synchronous Protocol</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('3_3_4_1')">
+                    <span class="section-number">3.3.4.1</span>
+                    <span class="section-title">Payload Encoding</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('3_3_4_1_1')">
+                    <span class="section-number">3.3.4.1.1</span>
+                    <span class="section-title">Stream Encoding Modifications</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_3_4_1_2')">
+                    <span class="section-number">3.3.4.1.2</span>
+                    <span class="section-title">TCG Packets</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_3_4_1_3')">
+                    <span class="section-number">3.3.4.1.3</span>
+                    <span class="section-title">Payload Error Response</span>
+                </div>
+            </ul></li></ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_3_5')">
+                    <span class="section-number">3.3.5</span>
+                    <span class="section-title">Storage Device Resets</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('3_3_5_1')">
+                    <span class="section-number">3.3.5.1</span>
+                    <span class="section-title">Interface Resets</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_3_5_2')">
+                    <span class="section-number">3.3.5.2</span>
+                    <span class="section-title">TCG Reset Events</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('3_3_6')">
+                    <span class="section-number">3.3.6</span>
+                    <span class="section-title">Protocol Stack Reset Commands (M)</span>
+                </div>
+            </ul></li></ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4')">
+                    <span class="section-number">4</span>
+                    <span class="section-title">Opal SSC-compliant Functions and SPs</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_1')">
+                    <span class="section-number">4.1</span>
+                    <span class="section-title">Session Manager</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_1_1')">
+                    <span class="section-number">4.1.1</span>
+                    <span class="section-title">Methods</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_1_1_1')">
+                    <span class="section-number">4.1.1.1</span>
+                    <span class="section-title">Properties (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_1_1_2')">
+                    <span class="section-number">4.1.1.2</span>
+                    <span class="section-title">StartSession (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_1_1_3')">
+                    <span class="section-number">4.1.1.3</span>
+                    <span class="section-title">SyncSession (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_1_1_4')">
+                    <span class="section-number">4.1.1.4</span>
+                    <span class="section-title">CloseSession (O)</span>
+                </div>
+            </ul></li></ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2')">
+                    <span class="section-number">4.2</span>
+                    <span class="section-title">Admin SP</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_1')">
+                    <span class="section-number">4.2.1</span>
+                    <span class="section-title">Base Template Tables</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_1_1')">
+                    <span class="section-number">4.2.1.1</span>
+                    <span class="section-title">SPInfo (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_1_2')">
+                    <span class="section-number">4.2.1.2</span>
+                    <span class="section-title">SPTemplates (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_1_3')">
+                    <span class="section-number">4.2.1.3</span>
+                    <span class="section-title">Table (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_1_4')">
+                    <span class="section-number">4.2.1.4</span>
+                    <span class="section-title">MethodID (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_1_5')">
+                    <span class="section-number">4.2.1.5</span>
+                    <span class="section-title">AccessControl (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_1_6')">
+                    <span class="section-number">4.2.1.6</span>
+                    <span class="section-title">ACE (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_1_7')">
+                    <span class="section-number">4.2.1.7</span>
+                    <span class="section-title">Authority (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_1_8')">
+                    <span class="section-number">4.2.1.8</span>
+                    <span class="section-title">C_PIN (M)</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_2')">
+                    <span class="section-number">4.2.2</span>
+                    <span class="section-title">Base Template Methods</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_3')">
+                    <span class="section-number">4.2.3</span>
+                    <span class="section-title">Admin Template Tables</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_3_1')">
+                    <span class="section-number">4.2.3.1</span>
+                    <span class="section-title">TPerInfo (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_3_2')">
+                    <span class="section-number">4.2.3.2</span>
+                    <span class="section-title">Template (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_3_3')">
+                    <span class="section-number">4.2.3.3</span>
+                    <span class="section-title">SP (M)</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_4')">
+                    <span class="section-number">4.2.4</span>
+                    <span class="section-title">Admin Template Methods</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_5')">
+                    <span class="section-number">4.2.5</span>
+                    <span class="section-title">Opal Additional Column Types</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_5_1')">
+                    <span class="section-number">4.2.5.1</span>
+                    <span class="section-title">Data_removal_mechanism</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_6')">
+                    <span class="section-number">4.2.6</span>
+                    <span class="section-title">Opal Additional Data Structures</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_6_1')">
+                    <span class="section-number">4.2.6.1</span>
+                    <span class="section-title">DataRemovalMechanism (ObjectTable)</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_6_1_1')">
+                    <span class="section-number">4.2.6.1.1</span>
+                    <span class="section-title">UID</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_6_1_2')">
+                    <span class="section-number">4.2.6.1.2</span>
+                    <span class="section-title">ActiveDataRemovalMechanism</span>
+                </div>
+            </ul></li></ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_7')">
+                    <span class="section-number">4.2.7</span>
+                    <span class="section-title">Opal Additional Tables</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_7_1')">
+                    <span class="section-number">4.2.7.1</span>
+                    <span class="section-title">DataRemovalMechansim (M)</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_8')">
+                    <span class="section-number">4.2.8</span>
+                    <span class="section-title">Crypto Template Tables</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_9')">
+                    <span class="section-number">4.2.9</span>
+                    <span class="section-title">Crypto Template Methods</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_2_9_1')">
+                    <span class="section-number">4.2.9.1</span>
+                    <span class="section-title">Random</span>
+                </div>
+            </ul></li></ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3')">
+                    <span class="section-number">4.3</span>
+                    <span class="section-title">Locking SP</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_1')">
+                    <span class="section-number">4.3.1</span>
+                    <span class="section-title">Base Template Tables</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_1_1')">
+                    <span class="section-number">4.3.1.1</span>
+                    <span class="section-title">SPInfo (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_1_2')">
+                    <span class="section-number">4.3.1.2</span>
+                    <span class="section-title">SPTemplates (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_1_3')">
+                    <span class="section-number">4.3.1.3</span>
+                    <span class="section-title">Table (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_1_4')">
+                    <span class="section-number">4.3.1.4</span>
+                    <span class="section-title">Type (N)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_1_5')">
+                    <span class="section-number">4.3.1.5</span>
+                    <span class="section-title">MethodID (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_1_6')">
+                    <span class="section-number">4.3.1.6</span>
+                    <span class="section-title">AccessControl (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_1_7')">
+                    <span class="section-number">4.3.1.7</span>
+                    <span class="section-title">ACE (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_1_8')">
+                    <span class="section-number">4.3.1.8</span>
+                    <span class="section-title">Authority (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_1_9')">
+                    <span class="section-number">4.3.1.9</span>
+                    <span class="section-title">C_PIN (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_1_10')">
+                    <span class="section-number">4.3.1.10</span>
+                    <span class="section-title">SecretProtect (M)</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_2')">
+                    <span class="section-number">4.3.2</span>
+                    <span class="section-title">Base Template Methods</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_3')">
+                    <span class="section-number">4.3.3</span>
+                    <span class="section-title">Crypto Template Tables</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_4')">
+                    <span class="section-number">4.3.4</span>
+                    <span class="section-title">Crypto Template Methods</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_4_1')">
+                    <span class="section-number">4.3.4.1</span>
+                    <span class="section-title">Random</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_5')">
+                    <span class="section-number">4.3.5</span>
+                    <span class="section-title">Locking Template Tables</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_5_1')">
+                    <span class="section-number">4.3.5.1</span>
+                    <span class="section-title">LockingInfo (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_5_2')">
+                    <span class="section-number">4.3.5.2</span>
+                    <span class="section-title">Locking (M)</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_5_2_1')">
+                    <span class="section-number">4.3.5.2.1</span>
+                    <span class="section-title">Geometry Reporting Feature Behavior</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_5_2_1_1')">
+                    <span class="section-number">4.3.5.2.1.1</span>
+                    <span class="section-title">RangeStart Behavior</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_5_2_1_2')">
+                    <span class="section-number">4.3.5.2.1.2</span>
+                    <span class="section-title">RangeLength Behavior</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_5_2_2')">
+                    <span class="section-number">4.3.5.2.2</span>
+                    <span class="section-title">LockOnReset Restrictions</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_5_3')">
+                    <span class="section-number">4.3.5.3</span>
+                    <span class="section-title">MBRControl (M)</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_5_3_1')">
+                    <span class="section-number">4.3.5.3.1</span>
+                    <span class="section-title">DoneOnReset Restrictions</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_5_4')">
+                    <span class="section-number">4.3.5.4</span>
+                    <span class="section-title">MBR (M)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_5_5')">
+                    <span class="section-number">4.3.5.5</span>
+                    <span class="section-title">K_AES_128 or K_AES_256 (M)</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_6')">
+                    <span class="section-number">4.3.6</span>
+                    <span class="section-title">Locking Template Methods</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_7')">
+                    <span class="section-number">4.3.7</span>
+                    <span class="section-title">Storage Device Read/Write Data Command Locking Behavior Interactions with Range Crossing</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_8')">
+                    <span class="section-number">4.3.8</span>
+                    <span class="section-title">Non Template Tables</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('4_3_8_1')">
+                    <span class="section-number">4.3.8.1</span>
+                    <span class="section-title">DataStore (M)</span>
+                </div>
+            </ul></li></ul></li></ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('5')">
+                    <span class="section-number">5</span>
+                    <span class="section-title">Appendix – SSC Specific Features</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_1')">
+                    <span class="section-number">5.1</span>
+                    <span class="section-title">Opal SSC-Specific Methods</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_1_1')">
+                    <span class="section-number">5.1.1</span>
+                    <span class="section-title">Activate – Admin Template SP Object Method</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_1_1_1')">
+                    <span class="section-number">5.1.1.1</span>
+                    <span class="section-title">Activate Support</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_1_1_2')">
+                    <span class="section-number">5.1.1.2</span>
+                    <span class="section-title">Side effects of Activate</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_1_2')">
+                    <span class="section-number">5.1.2</span>
+                    <span class="section-title">Revert – Admin Template SP Object Method</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_1_2_1')">
+                    <span class="section-number">5.1.2.1</span>
+                    <span class="section-title">Revert Support</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_1_2_2')">
+                    <span class="section-number">5.1.2.2</span>
+                    <span class="section-title">Effects of Revert</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_1_2_2_1')">
+                    <span class="section-number">5.1.2.2.1</span>
+                    <span class="section-title">Effects of Revert on the PIN Column Value of C_PIN_SID</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_1_2_3')">
+                    <span class="section-number">5.1.2.3</span>
+                    <span class="section-title">Interrupted Revert</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_1_3')">
+                    <span class="section-number">5.1.3</span>
+                    <span class="section-title">RevertSP – Base Template SP Method</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_1_3_1')">
+                    <span class="section-number">5.1.3.1</span>
+                    <span class="section-title">RevertSP Support</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_1_3_2')">
+                    <span class="section-number">5.1.3.2</span>
+                    <span class="section-title">KeepGlobalRangeKey parameter (Locking Template-specific)</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_1_3_3')">
+                    <span class="section-number">5.1.3.3</span>
+                    <span class="section-title">Effects of RevertSP</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_1_3_4')">
+                    <span class="section-number">5.1.3.4</span>
+                    <span class="section-title">Interrupted RevertSP</span>
+                </div>
+            </ul></li></ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_2')">
+                    <span class="section-number">5.2</span>
+                    <span class="section-title">Life Cycle</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_2_1')">
+                    <span class="section-number">5.2.1</span>
+                    <span class="section-title">Issued vs. Manufactured SPs</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_2_1_1')">
+                    <span class="section-number">5.2.1.1</span>
+                    <span class="section-title">Issued SPs</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_2_1_2')">
+                    <span class="section-number">5.2.1.2</span>
+                    <span class="section-title">Manufactured SPs</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_2_2')">
+                    <span class="section-number">5.2.2</span>
+                    <span class="section-title">Manufactured SP Life Cycle States</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_2_2_1')">
+                    <span class="section-number">5.2.2.1</span>
+                    <span class="section-title">State definitions for Manufactured SPs</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_2_2_2')">
+                    <span class="section-number">5.2.2.2</span>
+                    <span class="section-title">State transitions for Manufactured SPs</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_2_2_2_1')">
+                    <span class="section-number">5.2.2.2.1</span>
+                    <span class="section-title">Manufactured-Inactive to Manufactured</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_2_2_2_2')">
+                    <span class="section-number">5.2.2.2.2</span>
+                    <span class="section-title">ANY STATE to ORIGINAL FACTORY STATE</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_2_2_3')">
+                    <span class="section-number">5.2.2.3</span>
+                    <span class="section-title">State behaviors for Manufactured SPs</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_2_2_3_1')">
+                    <span class="section-number">5.2.2.3.1</span>
+                    <span class="section-title">Manufactured-Inactive</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_2_2_3_2')">
+                    <span class="section-number">5.2.2.3.2</span>
+                    <span class="section-title">Manufactured</span>
+                </div>
+            </ul></li></ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_2_3')">
+                    <span class="section-number">5.2.3</span>
+                    <span class="section-title">Type Table Modification</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_3')">
+                    <span class="section-number">5.3</span>
+                    <span class="section-title">Byte Table Access Granularity</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_3_1')">
+                    <span class="section-number">5.3.1</span>
+                    <span class="section-title">Table Table Modification</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_3_1_1')">
+                    <span class="section-number">5.3.1.1</span>
+                    <span class="section-title">MandatoryWriteGranularity</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_3_1_1_1')">
+                    <span class="section-number">5.3.1.1.1</span>
+                    <span class="section-title">Object Tables</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_3_1_1_2')">
+                    <span class="section-number">5.3.1.1.2</span>
+                    <span class="section-title">Byte Tables</span>
+                </div>
+            </ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_3_1_2')">
+                    <span class="section-number">5.3.1.2</span>
+                    <span class="section-title">RecommendedAccessGranularity</span>
+                </div>
+            <ul class="subsection">
+            <li>
+                <div class="section-item" onclick="loadSection('5_3_1_2_1')">
+                    <span class="section-number">5.3.1.2.1</span>
+                    <span class="section-title">Object Tables</span>
+                </div>
+            </li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_3_1_2_2')">
+                    <span class="section-number">5.3.1.2.2</span>
+                    <span class="section-title">Byte Tables</span>
+                </div>
+            </ul></li></ul></li></ul></li>
+            <li>
+                <div class="section-item" onclick="loadSection('5_4')">
+                    <span class="section-number">5.4</span>
+                    <span class="section-title">Examples of Alignment Geometry Reporting</span>
+                </div>
+            </ul></li></ul></li></ul>
+        </div>
+    </div>
+    
+    <!-- 메인 컨텐츠 -->
+    <div class="main-content">
+        <div class="content-header" id="contentHeader">
+            <h2>TCG Storage Opal SSC v2.30</h2>
+            <div class="content-meta">좌측 목차에서 섹션을 선택하세요</div>
+        </div>
+        
+        <div class="content-body" id="contentBody">
+            <div class="welcome">
+                <h2>환영합니다!</h2>
+                <p>좌측 목차에서 섹션을 선택하면 요약과 내용을 볼 수 있습니다.</p>
+                <p style="margin-top: 20px; color: #999;">← → 키로 섹션 이동 가능</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 섹션 데이터
+        const sectionsData = {
+  "section_0": {
+    "number": "0",
+    "title": "About This Document",
+    "pages": "-",
+    "summary": "<h1>TCG Storage Opal SSC v2.30 문서 정보</h1>\n<p>이 문서는 <strong>TCG Storage Opal Security Subsystem Class (SSC) Specification Version 2.30</strong>의 한글 요약본입니다.</p>\n<h2>📋 문서 개요</h2>\n<ul>\n<li><strong>원본 문서</strong>: TCG-Storage-Opal-SSC-v2.30_pub.pdf</li>\n<li><strong>발행일</strong>: 2025년 1월 30일</li>\n<li><strong>발행 기관</strong>: Trusted Computing Group (TCG)</li>\n</ul>\n<h2>🎯 목적</h2>\n<p>이 요약 문서는 TCG Opal 사양을 이해하고 구현하는 개발자와 엔지니어를 위해 작성되었습니다. 각 섹션별로 핵심 내용을 한국어로 요약하고, 실제 검증 가능한 테스트 케이스를 제공합니다.</p>\n<h2>📖 사용 방법</h2>\n<ol>\n<li><strong>좌측 목차</strong>에서 관심 있는 섹션을 선택하세요</li>\n<li>각 섹션의 <strong>요약</strong>을 통해 핵심 내용을 파악하세요</li>\n<li><strong>원본 페이지</strong>를 통해 상세 내용을 확인하세요</li>\n<li>키보드 <strong>← →</strong> 키로 섹션 간 이동이 가능합니다</li>\n</ol>\n<h2>⚠️ 주의사항</h2>\n<p>이 문서는 원본 사양서의 요약본이며, 공식적인 구현 시에는 반드시 원본 문서를 참조하시기 바랍니다.</p>",
+    "page_images": []
+  },
+  "Cover": {
+    "number": "Cover",
+    "title": "Cover",
+    "pages": "1-1",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 1,
+        "path": "PNG/page_0001.png"
+      }
+    ]
+  },
+  "1_3_4": {
+    "number": "1.3.4",
+    "title": "Cell Shading and Font Legend for Preconfiguration Tables",
+    "pages": "12-13",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 12,
+        "path": "PNG/page_0012.png"
+      },
+      {
+        "page_num": 13,
+        "path": "PNG/page_0013.png"
+      }
+    ]
+  },
+  "1_3_5": {
+    "number": "1.3.5",
+    "title": "List Conventions",
+    "pages": "13-13",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 13,
+        "path": "PNG/page_0013.png"
+      }
+    ]
+  },
+  "1_3_5_1": {
+    "number": "1.3.5.1",
+    "title": "Lists Overview",
+    "pages": "13-13",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 13,
+        "path": "PNG/page_0013.png"
+      }
+    ]
+  },
+  "1_3_5_2": {
+    "number": "1.3.5.2",
+    "title": "Unordered Lists",
+    "pages": "13-13",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 13,
+        "path": "PNG/page_0013.png"
+      }
+    ]
+  },
+  "1_3_5_3": {
+    "number": "1.3.5.3",
+    "title": "Ordered Lists",
+    "pages": "13-13",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 13,
+        "path": "PNG/page_0013.png"
+      }
+    ]
+  },
+  "1_3_6": {
+    "number": "1.3.6",
+    "title": "Numbering Conventions",
+    "pages": "13-14",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 13,
+        "path": "PNG/page_0013.png"
+      },
+      {
+        "page_num": 14,
+        "path": "PNG/page_0014.png"
+      }
+    ]
+  },
+  "1_3_7": {
+    "number": "1.3.7",
+    "title": "Bit Conventions",
+    "pages": "14-14",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 14,
+        "path": "PNG/page_0014.png"
+      }
+    ]
+  },
+  "1_3_8": {
+    "number": "1.3.8",
+    "title": "Number Range Conventions",
+    "pages": "14-14",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 14,
+        "path": "PNG/page_0014.png"
+      }
+    ]
+  },
+  "1_3_9": {
+    "number": "1.3.9",
+    "title": "Specify and Indicate Conventions",
+    "pages": "14-14",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 14,
+        "path": "PNG/page_0014.png"
+      }
+    ]
+  },
+  "1_4": {
+    "number": "1.4",
+    "title": "Document References",
+    "pages": "14-14",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 14,
+        "path": "PNG/page_0014.png"
+      }
+    ]
+  },
+  "1_4_1": {
+    "number": "1.4.1",
+    "title": "Document Precedence",
+    "pages": "14-14",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 14,
+        "path": "PNG/page_0014.png"
+      }
+    ]
+  },
+  "1_4_2": {
+    "number": "1.4.2",
+    "title": "Approved References",
+    "pages": "14-15",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 14,
+        "path": "PNG/page_0014.png"
+      },
+      {
+        "page_num": 15,
+        "path": "PNG/page_0015.png"
+      }
+    ]
+  },
+  "1_4_3": {
+    "number": "1.4.3",
+    "title": "References Under Development",
+    "pages": "15-15",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 15,
+        "path": "PNG/page_0015.png"
+      }
+    ]
+  },
+  "1_5": {
+    "number": "1.5",
+    "title": "Dependencies on Other Feature Sets",
+    "pages": "15-15",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 15,
+        "path": "PNG/page_0015.png"
+      }
+    ]
+  },
+  "1_6": {
+    "number": "1.6",
+    "title": "Interactions with Other Feature Sets",
+    "pages": "15-15",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 15,
+        "path": "PNG/page_0015.png"
+      }
+    ]
+  },
+  "1_7": {
+    "number": "1.7",
+    "title": "Definition of Terms",
+    "pages": "15-17",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 15,
+        "path": "PNG/page_0015.png"
+      },
+      {
+        "page_num": 16,
+        "path": "PNG/page_0016.png"
+      },
+      {
+        "page_num": 17,
+        "path": "PNG/page_0017.png"
+      }
+    ]
+  },
+  "2": {
+    "number": "2",
+    "title": "Opal SSC Overview",
+    "pages": "17-17",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 17,
+        "path": "PNG/page_0017.png"
+      }
+    ]
+  },
+  "2_1": {
+    "number": "2.1",
+    "title": "Opal SSC Use Cases and Threats",
+    "pages": "17-17",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 17,
+        "path": "PNG/page_0017.png"
+      }
+    ]
+  },
+  "2_2": {
+    "number": "2.2",
+    "title": "Security Providers (SPs)",
+    "pages": "17-17",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 17,
+        "path": "PNG/page_0017.png"
+      }
+    ]
+  },
+  "2_3": {
+    "number": "2.3",
+    "title": "Interface Communication Protocol",
+    "pages": "17-17",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 17,
+        "path": "PNG/page_0017.png"
+      }
+    ]
+  },
+  "2_4": {
+    "number": "2.4",
+    "title": "Cryptographic Features",
+    "pages": "17-17",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 17,
+        "path": "PNG/page_0017.png"
+      }
+    ]
+  },
+  "2_5": {
+    "number": "2.5",
+    "title": "Authentication",
+    "pages": "17-18",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 17,
+        "path": "PNG/page_0017.png"
+      },
+      {
+        "page_num": 18,
+        "path": "PNG/page_0018.png"
+      }
+    ]
+  },
+  "2_6": {
+    "number": "2.6",
+    "title": "Table Management",
+    "pages": "18-18",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 18,
+        "path": "PNG/page_0018.png"
+      }
+    ]
+  },
+  "2_7": {
+    "number": "2.7",
+    "title": "Access Control & Personalization",
+    "pages": "18-18",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 18,
+        "path": "PNG/page_0018.png"
+      }
+    ]
+  },
+  "2_8": {
+    "number": "2.8",
+    "title": "Issuance",
+    "pages": "18-18",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 18,
+        "path": "PNG/page_0018.png"
+      }
+    ]
+  },
+  "2_9": {
+    "number": "2.9",
+    "title": "SSC Discovery",
+    "pages": "18-18",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 18,
+        "path": "PNG/page_0018.png"
+      }
+    ]
+  },
+  "2_10": {
+    "number": "2.10",
+    "title": "Mandatory Feature Sets",
+    "pages": "18-19",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 18,
+        "path": "PNG/page_0018.png"
+      },
+      {
+        "page_num": 19,
+        "path": "PNG/page_0019.png"
+      }
+    ]
+  },
+  "3": {
+    "number": "3",
+    "title": "Opal SSC Features",
+    "pages": "19-19",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 19,
+        "path": "PNG/page_0019.png"
+      }
+    ]
+  },
+  "3_1": {
+    "number": "3.1",
+    "title": "Security Protocol 1 Support",
+    "pages": "19-19",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 19,
+        "path": "PNG/page_0019.png"
+      }
+    ]
+  },
+  "3_1_1": {
+    "number": "3.1.1",
+    "title": "Level 0 Discovery (M)",
+    "pages": "19-19",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 19,
+        "path": "PNG/page_0019.png"
+      }
+    ]
+  },
+  "3_1_1_1": {
+    "number": "3.1.1.1",
+    "title": "Level 0 Discovery Header",
+    "pages": "19-20",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 19,
+        "path": "PNG/page_0019.png"
+      },
+      {
+        "page_num": 20,
+        "path": "PNG/page_0020.png"
+      }
+    ]
+  },
+  "3_1_1_2": {
+    "number": "3.1.1.2",
+    "title": "TPer Feature (Feature Code = 0x0001)",
+    "pages": "20-20",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 20,
+        "path": "PNG/page_0020.png"
+      }
+    ]
+  },
+  "3_1_1_3": {
+    "number": "3.1.1.3",
+    "title": "Locking Feature (Feature Code = 0x0002)",
+    "pages": "20-21",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 20,
+        "path": "PNG/page_0020.png"
+      },
+      {
+        "page_num": 21,
+        "path": "PNG/page_0021.png"
+      }
+    ]
+  },
+  "3_1_1_3_1": {
+    "number": "3.1.1.3.1",
+    "title": "LockingEnabled Definition",
+    "pages": "21-21",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 21,
+        "path": "PNG/page_0021.png"
+      }
+    ]
+  },
+  "3_1_1_4": {
+    "number": "3.1.1.4",
+    "title": "Geometry Reporting Feature (Feature Code = 0x0003)",
+    "pages": "21-21",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 21,
+        "path": "PNG/page_0021.png"
+      }
+    ]
+  },
+  "3_1_1_4_1": {
+    "number": "3.1.1.4.1",
+    "title": "Overview",
+    "pages": "21-22",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 21,
+        "path": "PNG/page_0021.png"
+      },
+      {
+        "page_num": 22,
+        "path": "PNG/page_0022.png"
+      }
+    ]
+  },
+  "3_1_1_4_2": {
+    "number": "3.1.1.4.2",
+    "title": "ALIGN",
+    "pages": "22-22",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 22,
+        "path": "PNG/page_0022.png"
+      }
+    ]
+  },
+  "3_1_1_4_3": {
+    "number": "3.1.1.4.3",
+    "title": "LogicalBlockSize",
+    "pages": "22-22",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 22,
+        "path": "PNG/page_0022.png"
+      }
+    ]
+  },
+  "3_1_1_4_4": {
+    "number": "3.1.1.4.4",
+    "title": "AlignmentGranularity",
+    "pages": "22-22",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 22,
+        "path": "PNG/page_0022.png"
+      }
+    ]
+  },
+  "3_1_1_4_5": {
+    "number": "3.1.1.4.5",
+    "title": "LowestAlignedLBA",
+    "pages": "22-23",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 22,
+        "path": "PNG/page_0022.png"
+      },
+      {
+        "page_num": 23,
+        "path": "PNG/page_0023.png"
+      }
+    ]
+  },
+  "3_1_1_5": {
+    "number": "3.1.1.5",
+    "title": "Opal SSC V2 Feature (Feature Code = 0x0203)",
+    "pages": "23-24",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 23,
+        "path": "PNG/page_0023.png"
+      },
+      {
+        "page_num": 24,
+        "path": "PNG/page_0024.png"
+      }
+    ]
+  },
+  "3_1_1_5_1": {
+    "number": "3.1.1.5.1",
+    "title": "Base ComID",
+    "pages": "24-24",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 24,
+        "path": "PNG/page_0024.png"
+      }
+    ]
+  },
+  "3_1_1_5_2": {
+    "number": "3.1.1.5.2",
+    "title": "Number of ComIDs",
+    "pages": "24-24",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 24,
+        "path": "PNG/page_0024.png"
+      }
+    ]
+  },
+  "3_1_1_6": {
+    "number": "3.1.1.6",
+    "title": "Supported Data Removal Mechanism Feature (Feature Code = 0x0404)",
+    "pages": "24-26",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 24,
+        "path": "PNG/page_0024.png"
+      },
+      {
+        "page_num": 25,
+        "path": "PNG/page_0025.png"
+      },
+      {
+        "page_num": 26,
+        "path": "PNG/page_0026.png"
+      }
+    ]
+  },
+  "3_1_1_6_1": {
+    "number": "3.1.1.6.1",
+    "title": "Data Removal Operation Processing Definition",
+    "pages": "26-26",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 26,
+        "path": "PNG/page_0026.png"
+      }
+    ]
+  },
+  "3_1_1_6_2": {
+    "number": "3.1.1.6.2",
+    "title": "Data Removal Operation Interrupted",
+    "pages": "26-27",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 26,
+        "path": "PNG/page_0026.png"
+      },
+      {
+        "page_num": 27,
+        "path": "PNG/page_0027.png"
+      }
+    ]
+  },
+  "3_1_1_6_3": {
+    "number": "3.1.1.6.3",
+    "title": "Supported Data Removal Mechanism Definition",
+    "pages": "27-27",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 27,
+        "path": "PNG/page_0027.png"
+      }
+    ]
+  },
+  "3_1_1_6_4": {
+    "number": "3.1.1.6.4",
+    "title": "Data Removal Time Format and Data Removal Time Definition",
+    "pages": "27-28",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 27,
+        "path": "PNG/page_0027.png"
+      },
+      {
+        "page_num": 28,
+        "path": "PNG/page_0028.png"
+      }
+    ]
+  },
+  "3_2": {
+    "number": "3.2",
+    "title": "Security Protocol 2 Support",
+    "pages": "28-28",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 28,
+        "path": "PNG/page_0028.png"
+      }
+    ]
+  },
+  "3_2_1": {
+    "number": "3.2.1",
+    "title": "ComID Management",
+    "pages": "28-28",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 28,
+        "path": "PNG/page_0028.png"
+      }
+    ]
+  },
+  "3_2_2": {
+    "number": "3.2.2",
+    "title": "Stack Protocol Reset (M)",
+    "pages": "28-28",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 28,
+        "path": "PNG/page_0028.png"
+      }
+    ]
+  },
+  "3_2_3": {
+    "number": "3.2.3",
+    "title": "TPER_RESET command (M)",
+    "pages": "28-29",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 28,
+        "path": "PNG/page_0028.png"
+      },
+      {
+        "page_num": 29,
+        "path": "PNG/page_0029.png"
+      }
+    ]
+  },
+  "3_3": {
+    "number": "3.3",
+    "title": "Communications",
+    "pages": "29-29",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 29,
+        "path": "PNG/page_0029.png"
+      }
+    ]
+  },
+  "3_3_1": {
+    "number": "3.3.1",
+    "title": "Communication Properties",
+    "pages": "29-29",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 29,
+        "path": "PNG/page_0029.png"
+      }
+    ]
+  },
+  "3_3_2": {
+    "number": "3.3.2",
+    "title": "Supported Security Protocols",
+    "pages": "29-30",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 29,
+        "path": "PNG/page_0029.png"
+      },
+      {
+        "page_num": 30,
+        "path": "PNG/page_0030.png"
+      }
+    ]
+  },
+  "3_3_3": {
+    "number": "3.3.3",
+    "title": "ComIDs",
+    "pages": "30-30",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 30,
+        "path": "PNG/page_0030.png"
+      }
+    ]
+  },
+  "3_3_4": {
+    "number": "3.3.4",
+    "title": "Synchronous Protocol",
+    "pages": "30-30",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 30,
+        "path": "PNG/page_0030.png"
+      }
+    ]
+  },
+  "3_3_4_1": {
+    "number": "3.3.4.1",
+    "title": "Payload Encoding",
+    "pages": "30-30",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 30,
+        "path": "PNG/page_0030.png"
+      }
+    ]
+  },
+  "3_3_4_1_1": {
+    "number": "3.3.4.1.1",
+    "title": "Stream Encoding Modifications",
+    "pages": "30-31",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 30,
+        "path": "PNG/page_0030.png"
+      },
+      {
+        "page_num": 31,
+        "path": "PNG/page_0031.png"
+      }
+    ]
+  },
+  "3_3_4_1_2": {
+    "number": "3.3.4.1.2",
+    "title": "TCG Packets",
+    "pages": "31-31",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 31,
+        "path": "PNG/page_0031.png"
+      }
+    ]
+  },
+  "3_3_4_1_3": {
+    "number": "3.3.4.1.3",
+    "title": "Payload Error Response",
+    "pages": "31-31",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 31,
+        "path": "PNG/page_0031.png"
+      }
+    ]
+  },
+  "3_3_5": {
+    "number": "3.3.5",
+    "title": "Storage Device Resets",
+    "pages": "31-31",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 31,
+        "path": "PNG/page_0031.png"
+      }
+    ]
+  },
+  "3_3_5_1": {
+    "number": "3.3.5.1",
+    "title": "Interface Resets",
+    "pages": "31-32",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 31,
+        "path": "PNG/page_0031.png"
+      },
+      {
+        "page_num": 32,
+        "path": "PNG/page_0032.png"
+      }
+    ]
+  },
+  "3_3_5_2": {
+    "number": "3.3.5.2",
+    "title": "TCG Reset Events",
+    "pages": "32-32",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 32,
+        "path": "PNG/page_0032.png"
+      }
+    ]
+  },
+  "3_3_6": {
+    "number": "3.3.6",
+    "title": "Protocol Stack Reset Commands (M)",
+    "pages": "32-32",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 32,
+        "path": "PNG/page_0032.png"
+      }
+    ]
+  },
+  "4": {
+    "number": "4",
+    "title": "Opal SSC-compliant Functions and SPs",
+    "pages": "33-33",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 33,
+        "path": "PNG/page_0033.png"
+      }
+    ]
+  },
+  "4_1": {
+    "number": "4.1",
+    "title": "Session Manager",
+    "pages": "33-33",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 33,
+        "path": "PNG/page_0033.png"
+      }
+    ]
+  },
+  "4_1_1": {
+    "number": "4.1.1",
+    "title": "Methods",
+    "pages": "33-33",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 33,
+        "path": "PNG/page_0033.png"
+      }
+    ]
+  },
+  "4_1_1_1": {
+    "number": "4.1.1.1",
+    "title": "Properties (M)",
+    "pages": "33-34",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 33,
+        "path": "PNG/page_0033.png"
+      },
+      {
+        "page_num": 34,
+        "path": "PNG/page_0034.png"
+      }
+    ]
+  },
+  "4_1_1_2": {
+    "number": "4.1.1.2",
+    "title": "StartSession (M)",
+    "pages": "34-35",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 34,
+        "path": "PNG/page_0034.png"
+      },
+      {
+        "page_num": 35,
+        "path": "PNG/page_0035.png"
+      }
+    ]
+  },
+  "4_1_1_3": {
+    "number": "4.1.1.3",
+    "title": "SyncSession (M)",
+    "pages": "35-35",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 35,
+        "path": "PNG/page_0035.png"
+      }
+    ]
+  },
+  "4_1_1_4": {
+    "number": "4.1.1.4",
+    "title": "CloseSession (O)",
+    "pages": "35-35",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 35,
+        "path": "PNG/page_0035.png"
+      }
+    ]
+  },
+  "4_2": {
+    "number": "4.2",
+    "title": "Admin SP",
+    "pages": "35-35",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 35,
+        "path": "PNG/page_0035.png"
+      }
+    ]
+  },
+  "4_2_1": {
+    "number": "4.2.1",
+    "title": "Base Template Tables",
+    "pages": "35-35",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 35,
+        "path": "PNG/page_0035.png"
+      }
+    ]
+  },
+  "4_2_1_1": {
+    "number": "4.2.1.1",
+    "title": "SPInfo (M)",
+    "pages": "35-35",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 35,
+        "path": "PNG/page_0035.png"
+      }
+    ]
+  },
+  "4_2_1_2": {
+    "number": "4.2.1.2",
+    "title": "SPTemplates (M)",
+    "pages": "35-36",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 35,
+        "path": "PNG/page_0035.png"
+      },
+      {
+        "page_num": 36,
+        "path": "PNG/page_0036.png"
+      }
+    ]
+  },
+  "4_2_1_3": {
+    "number": "4.2.1.3",
+    "title": "Table (M)",
+    "pages": "36-38",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 36,
+        "path": "PNG/page_0036.png"
+      },
+      {
+        "page_num": 37,
+        "path": "PNG/page_0037.png"
+      },
+      {
+        "page_num": 38,
+        "path": "PNG/page_0038.png"
+      }
+    ]
+  },
+  "4_2_1_4": {
+    "number": "4.2.1.4",
+    "title": "MethodID (M)",
+    "pages": "38-38",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 38,
+        "path": "PNG/page_0038.png"
+      }
+    ]
+  },
+  "4_2_1_5": {
+    "number": "4.2.1.5",
+    "title": "AccessControl (M)",
+    "pages": "38-46",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 38,
+        "path": "PNG/page_0038.png"
+      },
+      {
+        "page_num": 39,
+        "path": "PNG/page_0039.png"
+      },
+      {
+        "page_num": 40,
+        "path": "PNG/page_0040.png"
+      },
+      {
+        "page_num": 41,
+        "path": "PNG/page_0041.png"
+      },
+      {
+        "page_num": 42,
+        "path": "PNG/page_0042.png"
+      },
+      {
+        "page_num": 43,
+        "path": "PNG/page_0043.png"
+      },
+      {
+        "page_num": 44,
+        "path": "PNG/page_0044.png"
+      },
+      {
+        "page_num": 45,
+        "path": "PNG/page_0045.png"
+      },
+      {
+        "page_num": 46,
+        "path": "PNG/page_0046.png"
+      }
+    ]
+  },
+  "4_2_1_6": {
+    "number": "4.2.1.6",
+    "title": "ACE (M)",
+    "pages": "46-47",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 46,
+        "path": "PNG/page_0046.png"
+      },
+      {
+        "page_num": 47,
+        "path": "PNG/page_0047.png"
+      }
+    ]
+  },
+  "4_2_1_7": {
+    "number": "4.2.1.7",
+    "title": "Authority (M)",
+    "pages": "47-48",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 47,
+        "path": "PNG/page_0047.png"
+      },
+      {
+        "page_num": 48,
+        "path": "PNG/page_0048.png"
+      }
+    ]
+  },
+  "4_2_1_8": {
+    "number": "4.2.1.8",
+    "title": "C_PIN (M)",
+    "pages": "48-49",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 48,
+        "path": "PNG/page_0048.png"
+      },
+      {
+        "page_num": 49,
+        "path": "PNG/page_0049.png"
+      }
+    ]
+  },
+  "4_2_2": {
+    "number": "4.2.2",
+    "title": "Base Template Methods",
+    "pages": "49-49",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 49,
+        "path": "PNG/page_0049.png"
+      }
+    ]
+  },
+  "4_2_3": {
+    "number": "4.2.3",
+    "title": "Admin Template Tables",
+    "pages": "49-49",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 49,
+        "path": "PNG/page_0049.png"
+      }
+    ]
+  },
+  "4_2_3_1": {
+    "number": "4.2.3.1",
+    "title": "TPerInfo (M)",
+    "pages": "49-50",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 49,
+        "path": "PNG/page_0049.png"
+      },
+      {
+        "page_num": 50,
+        "path": "PNG/page_0050.png"
+      }
+    ]
+  },
+  "4_2_3_2": {
+    "number": "4.2.3.2",
+    "title": "Template (M)",
+    "pages": "50-50",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 50,
+        "path": "PNG/page_0050.png"
+      }
+    ]
+  },
+  "4_2_3_3": {
+    "number": "4.2.3.3",
+    "title": "SP (M)",
+    "pages": "50-51",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 50,
+        "path": "PNG/page_0050.png"
+      },
+      {
+        "page_num": 51,
+        "path": "PNG/page_0051.png"
+      }
+    ]
+  },
+  "4_2_4": {
+    "number": "4.2.4",
+    "title": "Admin Template Methods",
+    "pages": "51-51",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 51,
+        "path": "PNG/page_0051.png"
+      }
+    ]
+  },
+  "4_2_5": {
+    "number": "4.2.5",
+    "title": "Opal Additional Column Types",
+    "pages": "51-51",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 51,
+        "path": "PNG/page_0051.png"
+      }
+    ]
+  },
+  "4_2_5_1": {
+    "number": "4.2.5.1",
+    "title": "Data_removal_mechanism",
+    "pages": "51-51",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 51,
+        "path": "PNG/page_0051.png"
+      }
+    ]
+  },
+  "4_2_6": {
+    "number": "4.2.6",
+    "title": "Opal Additional Data Structures",
+    "pages": "51-51",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 51,
+        "path": "PNG/page_0051.png"
+      }
+    ]
+  },
+  "4_2_6_1": {
+    "number": "4.2.6.1",
+    "title": "DataRemovalMechanism (ObjectTable)",
+    "pages": "51-51",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 51,
+        "path": "PNG/page_0051.png"
+      }
+    ]
+  },
+  "4_2_6_1_1": {
+    "number": "4.2.6.1.1",
+    "title": "UID",
+    "pages": "51-51",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 51,
+        "path": "PNG/page_0051.png"
+      }
+    ]
+  },
+  "4_2_6_1_2": {
+    "number": "4.2.6.1.2",
+    "title": "ActiveDataRemovalMechanism",
+    "pages": "51-52",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 51,
+        "path": "PNG/page_0051.png"
+      },
+      {
+        "page_num": 52,
+        "path": "PNG/page_0052.png"
+      }
+    ]
+  },
+  "4_2_7": {
+    "number": "4.2.7",
+    "title": "Opal Additional Tables",
+    "pages": "52-52",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 52,
+        "path": "PNG/page_0052.png"
+      }
+    ]
+  },
+  "4_2_7_1": {
+    "number": "4.2.7.1",
+    "title": "DataRemovalMechansim (M)",
+    "pages": "52-52",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 52,
+        "path": "PNG/page_0052.png"
+      }
+    ]
+  },
+  "4_2_8": {
+    "number": "4.2.8",
+    "title": "Crypto Template Tables",
+    "pages": "52-52",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 52,
+        "path": "PNG/page_0052.png"
+      }
+    ]
+  },
+  "4_2_9": {
+    "number": "4.2.9",
+    "title": "Crypto Template Methods",
+    "pages": "52-52",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 52,
+        "path": "PNG/page_0052.png"
+      }
+    ]
+  },
+  "4_2_9_1": {
+    "number": "4.2.9.1",
+    "title": "Random",
+    "pages": "52-52",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 52,
+        "path": "PNG/page_0052.png"
+      }
+    ]
+  },
+  "4_3": {
+    "number": "4.3",
+    "title": "Locking SP",
+    "pages": "52-52",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 52,
+        "path": "PNG/page_0052.png"
+      }
+    ]
+  },
+  "4_3_1": {
+    "number": "4.3.1",
+    "title": "Base Template Tables",
+    "pages": "52-52",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 52,
+        "path": "PNG/page_0052.png"
+      }
+    ]
+  },
+  "4_3_1_1": {
+    "number": "4.3.1.1",
+    "title": "SPInfo (M)",
+    "pages": "52-52",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 52,
+        "path": "PNG/page_0052.png"
+      }
+    ]
+  },
+  "4_3_1_2": {
+    "number": "4.3.1.2",
+    "title": "SPTemplates (M)",
+    "pages": "52-53",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 52,
+        "path": "PNG/page_0052.png"
+      },
+      {
+        "page_num": 53,
+        "path": "PNG/page_0053.png"
+      }
+    ]
+  },
+  "4_3_1_3": {
+    "number": "4.3.1.3",
+    "title": "Table (M)",
+    "pages": "53-54",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 53,
+        "path": "PNG/page_0053.png"
+      },
+      {
+        "page_num": 54,
+        "path": "PNG/page_0054.png"
+      }
+    ]
+  },
+  "4_3_1_4": {
+    "number": "4.3.1.4",
+    "title": "Type (N)",
+    "pages": "54-54",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 54,
+        "path": "PNG/page_0054.png"
+      }
+    ]
+  },
+  "4_3_1_5": {
+    "number": "4.3.1.5",
+    "title": "MethodID (M)",
+    "pages": "54-55",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 54,
+        "path": "PNG/page_0054.png"
+      },
+      {
+        "page_num": 55,
+        "path": "PNG/page_0055.png"
+      }
+    ]
+  },
+  "4_3_1_6": {
+    "number": "4.3.1.6",
+    "title": "AccessControl (M)",
+    "pages": "55-78",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 55,
+        "path": "PNG/page_0055.png"
+      },
+      {
+        "page_num": 56,
+        "path": "PNG/page_0056.png"
+      },
+      {
+        "page_num": 57,
+        "path": "PNG/page_0057.png"
+      },
+      {
+        "page_num": 58,
+        "path": "PNG/page_0058.png"
+      },
+      {
+        "page_num": 59,
+        "path": "PNG/page_0059.png"
+      },
+      {
+        "page_num": 60,
+        "path": "PNG/page_0060.png"
+      },
+      {
+        "page_num": 61,
+        "path": "PNG/page_0061.png"
+      },
+      {
+        "page_num": 62,
+        "path": "PNG/page_0062.png"
+      },
+      {
+        "page_num": 63,
+        "path": "PNG/page_0063.png"
+      },
+      {
+        "page_num": 64,
+        "path": "PNG/page_0064.png"
+      },
+      {
+        "page_num": 65,
+        "path": "PNG/page_0065.png"
+      },
+      {
+        "page_num": 66,
+        "path": "PNG/page_0066.png"
+      },
+      {
+        "page_num": 67,
+        "path": "PNG/page_0067.png"
+      },
+      {
+        "page_num": 68,
+        "path": "PNG/page_0068.png"
+      },
+      {
+        "page_num": 69,
+        "path": "PNG/page_0069.png"
+      },
+      {
+        "page_num": 70,
+        "path": "PNG/page_0070.png"
+      },
+      {
+        "page_num": 71,
+        "path": "PNG/page_0071.png"
+      },
+      {
+        "page_num": 72,
+        "path": "PNG/page_0072.png"
+      },
+      {
+        "page_num": 73,
+        "path": "PNG/page_0073.png"
+      },
+      {
+        "page_num": 74,
+        "path": "PNG/page_0074.png"
+      },
+      {
+        "page_num": 75,
+        "path": "PNG/page_0075.png"
+      },
+      {
+        "page_num": 76,
+        "path": "PNG/page_0076.png"
+      },
+      {
+        "page_num": 77,
+        "path": "PNG/page_0077.png"
+      },
+      {
+        "page_num": 78,
+        "path": "PNG/page_0078.png"
+      }
+    ]
+  },
+  "4_3_1_7": {
+    "number": "4.3.1.7",
+    "title": "ACE (M)",
+    "pages": "78-82",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 78,
+        "path": "PNG/page_0078.png"
+      },
+      {
+        "page_num": 79,
+        "path": "PNG/page_0079.png"
+      },
+      {
+        "page_num": 80,
+        "path": "PNG/page_0080.png"
+      },
+      {
+        "page_num": 81,
+        "path": "PNG/page_0081.png"
+      },
+      {
+        "page_num": 82,
+        "path": "PNG/page_0082.png"
+      }
+    ]
+  },
+  "4_3_1_8": {
+    "number": "4.3.1.8",
+    "title": "Authority (M)",
+    "pages": "82-83",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 82,
+        "path": "PNG/page_0082.png"
+      },
+      {
+        "page_num": 83,
+        "path": "PNG/page_0083.png"
+      }
+    ]
+  },
+  "4_3_1_9": {
+    "number": "4.3.1.9",
+    "title": "C_PIN (M)",
+    "pages": "83-84",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 83,
+        "path": "PNG/page_0083.png"
+      },
+      {
+        "page_num": 84,
+        "path": "PNG/page_0084.png"
+      }
+    ]
+  },
+  "4_3_1_10": {
+    "number": "4.3.1.10",
+    "title": "SecretProtect (M)",
+    "pages": "84-84",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 84,
+        "path": "PNG/page_0084.png"
+      }
+    ]
+  },
+  "4_3_2": {
+    "number": "4.3.2",
+    "title": "Base Template Methods",
+    "pages": "84-85",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 84,
+        "path": "PNG/page_0084.png"
+      },
+      {
+        "page_num": 85,
+        "path": "PNG/page_0085.png"
+      }
+    ]
+  },
+  "4_3_3": {
+    "number": "4.3.3",
+    "title": "Crypto Template Tables",
+    "pages": "85-85",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 85,
+        "path": "PNG/page_0085.png"
+      }
+    ]
+  },
+  "4_3_4": {
+    "number": "4.3.4",
+    "title": "Crypto Template Methods",
+    "pages": "85-85",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 85,
+        "path": "PNG/page_0085.png"
+      }
+    ]
+  },
+  "4_3_4_1": {
+    "number": "4.3.4.1",
+    "title": "Random",
+    "pages": "85-85",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 85,
+        "path": "PNG/page_0085.png"
+      }
+    ]
+  },
+  "4_3_5": {
+    "number": "4.3.5",
+    "title": "Locking Template Tables",
+    "pages": "85-85",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 85,
+        "path": "PNG/page_0085.png"
+      }
+    ]
+  },
+  "4_3_5_1": {
+    "number": "4.3.5.1",
+    "title": "LockingInfo (M)",
+    "pages": "85-86",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 85,
+        "path": "PNG/page_0085.png"
+      },
+      {
+        "page_num": 86,
+        "path": "PNG/page_0086.png"
+      }
+    ]
+  },
+  "4_3_5_2": {
+    "number": "4.3.5.2",
+    "title": "Locking (M)",
+    "pages": "86-87",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 86,
+        "path": "PNG/page_0086.png"
+      },
+      {
+        "page_num": 87,
+        "path": "PNG/page_0087.png"
+      }
+    ]
+  },
+  "4_3_5_2_1": {
+    "number": "4.3.5.2.1",
+    "title": "Geometry Reporting Feature Behavior",
+    "pages": "87-87",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 87,
+        "path": "PNG/page_0087.png"
+      }
+    ]
+  },
+  "4_3_5_2_1_1": {
+    "number": "4.3.5.2.1.1",
+    "title": "RangeStart Behavior",
+    "pages": "87-87",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 87,
+        "path": "PNG/page_0087.png"
+      }
+    ]
+  },
+  "4_3_5_2_1_2": {
+    "number": "4.3.5.2.1.2",
+    "title": "RangeLength Behavior",
+    "pages": "87-88",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 87,
+        "path": "PNG/page_0087.png"
+      },
+      {
+        "page_num": 88,
+        "path": "PNG/page_0088.png"
+      }
+    ]
+  },
+  "4_3_5_2_2": {
+    "number": "4.3.5.2.2",
+    "title": "LockOnReset Restrictions",
+    "pages": "88-88",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 88,
+        "path": "PNG/page_0088.png"
+      }
+    ]
+  },
+  "4_3_5_3": {
+    "number": "4.3.5.3",
+    "title": "MBRControl (M)",
+    "pages": "88-88",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 88,
+        "path": "PNG/page_0088.png"
+      }
+    ]
+  },
+  "4_3_5_3_1": {
+    "number": "4.3.5.3.1",
+    "title": "DoneOnReset Restrictions",
+    "pages": "88-89",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 88,
+        "path": "PNG/page_0088.png"
+      },
+      {
+        "page_num": 89,
+        "path": "PNG/page_0089.png"
+      }
+    ]
+  },
+  "4_3_5_4": {
+    "number": "4.3.5.4",
+    "title": "MBR (M)",
+    "pages": "89-89",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 89,
+        "path": "PNG/page_0089.png"
+      }
+    ]
+  },
+  "4_3_5_5": {
+    "number": "4.3.5.5",
+    "title": "K_AES_128 or K_AES_256 (M)",
+    "pages": "89-90",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 89,
+        "path": "PNG/page_0089.png"
+      },
+      {
+        "page_num": 90,
+        "path": "PNG/page_0090.png"
+      }
+    ]
+  },
+  "4_3_6": {
+    "number": "4.3.6",
+    "title": "Locking Template Methods",
+    "pages": "90-90",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 90,
+        "path": "PNG/page_0090.png"
+      }
+    ]
+  },
+  "4_3_7": {
+    "number": "4.3.7",
+    "title": "Storage Device Read/Write Data Command Locking Behavior Interactions with Range Crossing",
+    "pages": "90-90",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 90,
+        "path": "PNG/page_0090.png"
+      }
+    ]
+  },
+  "4_3_8": {
+    "number": "4.3.8",
+    "title": "Non Template Tables",
+    "pages": "90-90",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 90,
+        "path": "PNG/page_0090.png"
+      }
+    ]
+  },
+  "4_3_8_1": {
+    "number": "4.3.8.1",
+    "title": "DataStore (M)",
+    "pages": "90-91",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 90,
+        "path": "PNG/page_0090.png"
+      },
+      {
+        "page_num": 91,
+        "path": "PNG/page_0091.png"
+      }
+    ]
+  },
+  "5": {
+    "number": "5",
+    "title": "Appendix – SSC Specific Features",
+    "pages": "91-91",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 91,
+        "path": "PNG/page_0091.png"
+      }
+    ]
+  },
+  "5_1": {
+    "number": "5.1",
+    "title": "Opal SSC-Specific Methods",
+    "pages": "91-91",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 91,
+        "path": "PNG/page_0091.png"
+      }
+    ]
+  },
+  "5_1_1": {
+    "number": "5.1.1",
+    "title": "Activate – Admin Template SP Object Method",
+    "pages": "91-91",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 91,
+        "path": "PNG/page_0091.png"
+      }
+    ]
+  },
+  "5_1_1_1": {
+    "number": "5.1.1.1",
+    "title": "Activate Support",
+    "pages": "91-91",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 91,
+        "path": "PNG/page_0091.png"
+      }
+    ]
+  },
+  "5_1_1_2": {
+    "number": "5.1.1.2",
+    "title": "Side effects of Activate",
+    "pages": "91-91",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 91,
+        "path": "PNG/page_0091.png"
+      }
+    ]
+  },
+  "5_1_2": {
+    "number": "5.1.2",
+    "title": "Revert – Admin Template SP Object Method",
+    "pages": "91-92",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 91,
+        "path": "PNG/page_0091.png"
+      },
+      {
+        "page_num": 92,
+        "path": "PNG/page_0092.png"
+      }
+    ]
+  },
+  "5_1_2_1": {
+    "number": "5.1.2.1",
+    "title": "Revert Support",
+    "pages": "92-92",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 92,
+        "path": "PNG/page_0092.png"
+      }
+    ]
+  },
+  "5_1_2_2": {
+    "number": "5.1.2.2",
+    "title": "Effects of Revert",
+    "pages": "92-93",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 92,
+        "path": "PNG/page_0092.png"
+      },
+      {
+        "page_num": 93,
+        "path": "PNG/page_0093.png"
+      }
+    ]
+  },
+  "5_1_2_2_1": {
+    "number": "5.1.2.2.1",
+    "title": "Effects of Revert on the PIN Column Value of C_PIN_SID",
+    "pages": "93-93",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 93,
+        "path": "PNG/page_0093.png"
+      }
+    ]
+  },
+  "5_1_2_3": {
+    "number": "5.1.2.3",
+    "title": "Interrupted Revert",
+    "pages": "93-94",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 93,
+        "path": "PNG/page_0093.png"
+      },
+      {
+        "page_num": 94,
+        "path": "PNG/page_0094.png"
+      }
+    ]
+  },
+  "5_1_3": {
+    "number": "5.1.3",
+    "title": "RevertSP – Base Template SP Method",
+    "pages": "94-94",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 94,
+        "path": "PNG/page_0094.png"
+      }
+    ]
+  },
+  "5_1_3_1": {
+    "number": "5.1.3.1",
+    "title": "RevertSP Support",
+    "pages": "94-94",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 94,
+        "path": "PNG/page_0094.png"
+      }
+    ]
+  },
+  "5_1_3_2": {
+    "number": "5.1.3.2",
+    "title": "KeepGlobalRangeKey parameter (Locking Template-specific)",
+    "pages": "94-94",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 94,
+        "path": "PNG/page_0094.png"
+      }
+    ]
+  },
+  "5_1_3_3": {
+    "number": "5.1.3.3",
+    "title": "Effects of RevertSP",
+    "pages": "94-95",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 94,
+        "path": "PNG/page_0094.png"
+      },
+      {
+        "page_num": 95,
+        "path": "PNG/page_0095.png"
+      }
+    ]
+  },
+  "5_1_3_4": {
+    "number": "5.1.3.4",
+    "title": "Interrupted RevertSP",
+    "pages": "95-95",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 95,
+        "path": "PNG/page_0095.png"
+      }
+    ]
+  },
+  "5_2": {
+    "number": "5.2",
+    "title": "Life Cycle",
+    "pages": "95-95",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 95,
+        "path": "PNG/page_0095.png"
+      }
+    ]
+  },
+  "5_2_1": {
+    "number": "5.2.1",
+    "title": "Issued vs. Manufactured SPs",
+    "pages": "95-95",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 95,
+        "path": "PNG/page_0095.png"
+      }
+    ]
+  },
+  "5_2_1_1": {
+    "number": "5.2.1.1",
+    "title": "Issued SPs",
+    "pages": "95-95",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 95,
+        "path": "PNG/page_0095.png"
+      }
+    ]
+  },
+  "5_2_1_2": {
+    "number": "5.2.1.2",
+    "title": "Manufactured SPs",
+    "pages": "95-96",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 95,
+        "path": "PNG/page_0095.png"
+      },
+      {
+        "page_num": 96,
+        "path": "PNG/page_0096.png"
+      }
+    ]
+  },
+  "5_2_2": {
+    "number": "5.2.2",
+    "title": "Manufactured SP Life Cycle States",
+    "pages": "96-96",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 96,
+        "path": "PNG/page_0096.png"
+      }
+    ]
+  },
+  "5_2_2_1": {
+    "number": "5.2.2.1",
+    "title": "State definitions for Manufactured SPs",
+    "pages": "96-97",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 96,
+        "path": "PNG/page_0096.png"
+      },
+      {
+        "page_num": 97,
+        "path": "PNG/page_0097.png"
+      }
+    ]
+  },
+  "5_2_2_2": {
+    "number": "5.2.2.2",
+    "title": "State transitions for Manufactured SPs",
+    "pages": "97-97",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 97,
+        "path": "PNG/page_0097.png"
+      }
+    ]
+  },
+  "5_2_2_2_1": {
+    "number": "5.2.2.2.1",
+    "title": "Manufactured-Inactive to Manufactured",
+    "pages": "97-97",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 97,
+        "path": "PNG/page_0097.png"
+      }
+    ]
+  },
+  "5_2_2_2_2": {
+    "number": "5.2.2.2.2",
+    "title": "ANY STATE to ORIGINAL FACTORY STATE",
+    "pages": "97-97",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 97,
+        "path": "PNG/page_0097.png"
+      }
+    ]
+  },
+  "5_2_2_3": {
+    "number": "5.2.2.3",
+    "title": "State behaviors for Manufactured SPs",
+    "pages": "97-97",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 97,
+        "path": "PNG/page_0097.png"
+      }
+    ]
+  },
+  "5_2_2_3_1": {
+    "number": "5.2.2.3.1",
+    "title": "Manufactured-Inactive",
+    "pages": "97-98",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 97,
+        "path": "PNG/page_0097.png"
+      },
+      {
+        "page_num": 98,
+        "path": "PNG/page_0098.png"
+      }
+    ]
+  },
+  "5_2_2_3_2": {
+    "number": "5.2.2.3.2",
+    "title": "Manufactured",
+    "pages": "98-98",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 98,
+        "path": "PNG/page_0098.png"
+      }
+    ]
+  },
+  "5_2_3": {
+    "number": "5.2.3",
+    "title": "Type Table Modification",
+    "pages": "98-98",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 98,
+        "path": "PNG/page_0098.png"
+      }
+    ]
+  },
+  "5_3": {
+    "number": "5.3",
+    "title": "Byte Table Access Granularity",
+    "pages": "98-98",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 98,
+        "path": "PNG/page_0098.png"
+      }
+    ]
+  },
+  "5_3_1": {
+    "number": "5.3.1",
+    "title": "Table Table Modification",
+    "pages": "98-99",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 98,
+        "path": "PNG/page_0098.png"
+      },
+      {
+        "page_num": 99,
+        "path": "PNG/page_0099.png"
+      }
+    ]
+  },
+  "5_3_1_1": {
+    "number": "5.3.1.1",
+    "title": "MandatoryWriteGranularity",
+    "pages": "99-99",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 99,
+        "path": "PNG/page_0099.png"
+      }
+    ]
+  },
+  "5_3_1_1_1": {
+    "number": "5.3.1.1.1",
+    "title": "Object Tables",
+    "pages": "99-99",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 99,
+        "path": "PNG/page_0099.png"
+      }
+    ]
+  },
+  "5_3_1_1_2": {
+    "number": "5.3.1.1.2",
+    "title": "Byte Tables",
+    "pages": "99-99",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 99,
+        "path": "PNG/page_0099.png"
+      }
+    ]
+  },
+  "5_3_1_2": {
+    "number": "5.3.1.2",
+    "title": "RecommendedAccessGranularity",
+    "pages": "99-99",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 99,
+        "path": "PNG/page_0099.png"
+      }
+    ]
+  },
+  "5_3_1_2_1": {
+    "number": "5.3.1.2.1",
+    "title": "Object Tables",
+    "pages": "99-100",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 99,
+        "path": "PNG/page_0099.png"
+      },
+      {
+        "page_num": 100,
+        "path": "PNG/page_0100.png"
+      }
+    ]
+  },
+  "5_3_1_2_2": {
+    "number": "5.3.1.2.2",
+    "title": "Byte Tables",
+    "pages": "100-100",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 100,
+        "path": "PNG/page_0100.png"
+      }
+    ]
+  },
+  "5_4": {
+    "number": "5.4",
+    "title": "Examples of Alignment Geometry Reporting",
+    "pages": "100-101",
+    "summary": "",
+    "page_images": [
+      {
+        "page_num": 100,
+        "path": "PNG/page_0100.png"
+      },
+      {
+        "page_num": 101,
+        "path": "PNG/page_0101.png"
+      }
+    ]
+  }
+};
+        
+        // 현재 섹션 추적 변수
+        let currentSectionId = null;
+        let sectionKeys = [];
+        
+        // 섹션 로드
+        function loadSection(sectionId) {
+            const data = sectionsData[sectionId];
+            if (!data) return;
+            
+            currentSectionId = sectionId;
+            
+            // 헤더 업데이트
+            document.getElementById('contentHeader').innerHTML = `
+                <h2>${data.number} ${data.title}</h2>
+                <div class="content-meta">Pages: ${data.pages}</div>
+            `;
+            
+            // 요약 HTML 생성
+            let summaryHtml = '';
+            if (data.summary) {
+                summaryHtml = `
+                    <div class="summary-section">
+                        <h3>📝 요약</h3>
+                        <div>${data.summary}</div>
+                    </div>
+                `;
+            }
+            
+            // 페이지 이미지 HTML 생성
+            let imagesHtml = '';
+            if (data.page_images && data.page_images.length > 0) {
+                imagesHtml = '<div class="content-section"><h3>📄 원본 페이지</h3>';
+                data.page_images.forEach(img => {
+                    imagesHtml += `
+                        <div class="page-image">
+                            <h4>Page ${img.page_num}</h4>
+                            <img src="${img.path}" alt="Page ${img.page_num}" onclick="openImage('${img.path}')">
+                        </div>
+                    `;
+                });
+                imagesHtml += '</div>';
+            }
+            
+            // 컨텐츠 업데이트
+            document.getElementById('contentBody').innerHTML = summaryHtml + imagesHtml;
+            
+            // 사이드바 active 상태 업데이트
+            document.querySelectorAll('.section-tree li').forEach(li => li.classList.remove('active'));
+            document.querySelectorAll('.subsection li').forEach(li => li.classList.remove('active'));
+            
+            const activeItems = document.querySelectorAll(`[onclick="loadSection('${sectionId}')"]`);
+            activeItems.forEach(item => item.parentElement.classList.add('active'));
+            
+            // 컨텐츠를 맨 위로 스크롤
+            document.getElementById('contentBody').scrollTop = 0;
+        }
+        
+        // 이미지 새 탭에서 열기
+        function openImage(path) {
+            window.open(path, '_blank');
+        }
+
+        
+        // 이전/다음 섹션으로 이동
+        function navigateSection(direction) {
+            if (!currentSectionId || sectionKeys.length === 0) return;
+            
+            const currentIndex = sectionKeys.indexOf(currentSectionId);
+            let newIndex;
+            
+            if (direction === 'prev') {
+                newIndex = currentIndex - 1;
+                if (newIndex < 0) newIndex = sectionKeys.length - 1;
+            } else {
+                newIndex = currentIndex + 1;
+                if (newIndex >= sectionKeys.length) newIndex = 0;
+            }
+            
+            loadSection(sectionKeys[newIndex]);
+        }
+        
+        // 키보드 이벤트
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                navigateSection('prev');
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                navigateSection('next');
+            }
+        });
+        
+        // 검색 기능
+        function searchSections() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase().trim();
+            
+            const allItems = document.querySelectorAll('.section-tree li, .subsection li');
+            
+            if (filter === '') {
+                allItems.forEach(li => {
+                    li.style.display = '';
+                });
+                return;
+            }
+            
+            allItems.forEach(li => {
+                li.style.display = 'none';
+            });
+            
+            document.querySelectorAll('.section-item').forEach(item => {
+                const number = item.querySelector('.section-number').textContent.toLowerCase();
+                const title = item.querySelector('.section-title').textContent.toLowerCase();
+                const fullText = number + ' ' + title;
+                
+                if (fullText.indexOf(filter) > -1) {
+                    const li = item.parentElement;
+                    li.style.display = '';
+                    
+                    let parent = li.parentElement;
+                    while (parent && parent.tagName === 'UL') {
+                        parent.style.display = '';
+                        if (parent.parentElement && parent.parentElement.tagName === 'LI') {
+                            parent.parentElement.style.display = '';
+                        }
+                        parent = parent.parentElement.parentElement;
+                    }
+                }
+            });
+        }
+        
+        // 첫 번째 섹션 자동 로드
+        window.onload = function() {
+            sectionKeys = Object.keys(sectionsData);
+            const firstSection = sectionKeys[0];
+            if (firstSection) {
+                loadSection(firstSection);
+            }
+        };
+    </script>
+</body>
+</html>

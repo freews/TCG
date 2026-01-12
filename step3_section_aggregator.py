@@ -178,6 +178,8 @@ def is_table_content(line):
 
 def extract_figure_caption(line):
     stripped = line.strip()
+    # 마크다운 헤더 기호 제거 (### Table 15 같은 경우 처리)
+    stripped = re.sub(r'^#+\s*', '', stripped)
     match = re.match(r'^(Figure|Table)\s+(\d+)', stripped, re.IGNORECASE)
     if match:
         return f"{match.group(1)} {match.group(2)}"

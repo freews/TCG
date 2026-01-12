@@ -103,10 +103,42 @@ class HTMLGenerator:
     def create_main_html(self):
         """메인 index.html 생성"""
         hierarchy = self.get_section_hierarchy()
+        
+        # about_this_document.txt 파일 확인 및 Section 0 추가
+        about_file = self.output_dir / "about_this_document.txt"
+        has_about_section = about_file.exists()
+        
+        if has_about_section:
+            # Section 0을 hierarchy 맨 앞에 추가
+            about_section = {
+                "number": "0",
+                "title": "About This Document",
+                "level": 1,
+                "start_page": 0,
+                "end_page": 0,
+                "id": "section_0"
+            }
+            hierarchy.insert(0, about_section)
+        
         sidebar_html = self.create_section_sidebar_html(hierarchy)
         
         # 섹션별 데이터를 JSON으로 생성
         sections_data = {}
+        
+        # Section 0 추가 (about_this_document.txt 내용)
+        if has_about_section:
+            try:
+                with open(about_file, 'r', encoding='utf-8') as f:
+                    about_content = f.read()
+                sections_data["section_0"] = {
+                    "number": "0",
+                    "title": "About This Document",
+                    "pages": "-",
+                    "summary": self.markdown_to_html(about_content),
+                    "page_images": []
+                }
+            except Exception as e:
+                print(f"⚠️  Warning: Could not read about_this_document.txt: {e}")
         
         for section in self.sections:
             section_id = section.get("section_id", "")
@@ -125,13 +157,13 @@ class HTMLGenerator:
             start_page = section.get("start_page", 0)
             end_page = section.get("end_page", 0)
             
-            # 페이지 이미지 경로 생성
+            # 페이지 이미지 경로 생성 (html/PNG 디렉토리 사용)
             page_images = []
             for page_num in range(start_page, end_page + 1):
-                page_filename = f"{page_num:04d}_page.png"
+                page_filename = f"page_{page_num:04d}.png"
                 page_images.append({
                     "page_num": page_num,
-                    "path": f"../png/{page_filename}"
+                    "path": f"PNG/{page_filename}"
                 })
             
             sections_data[safe_id] = {
@@ -141,6 +173,7 @@ class HTMLGenerator:
                 "summary": self.markdown_to_html(summary),
                 "page_images": page_images
             }
+        
         
         # JSON 데이터를 JavaScript 변수로
         sections_json = json.dumps(sections_data, ensure_ascii=False, indent=2)
