@@ -57,9 +57,9 @@ pip install pynvme pytest
 # conftest.py
 import pytest
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")  # ← 중요: function scope
 def ssd_h():
-    """pynvme Controller"""
+    """pynvme Controller - 각 테스트마다 새로운 인스턴스"""
     import nvme as d
     
     # NVMe Controller 초기화
@@ -67,9 +67,17 @@ def ssd_h():
     
     yield nvme0
     
-    # Cleanup
+    # Cleanup (각 테스트 후)
     nvme0.close()
 ```
+
+**Scope 선택:**
+- `scope="function"`: 각 테스트마다 새 controller (권장) ✓
+  - 테스트 간 독립성 보장
+  - Session state 격리
+- `scope="module"`: 전체 테스트에서 하나의 controller 공유 (위험)
+  - Session 충돌 가능
+  - State 오염
 
 ### 3. 테스트 실행
 

@@ -3,6 +3,7 @@ TCG Opal SSC v2.30 종합 테스트 스위트
 ====================================
 
 pynvme 기반 실제 SSD 테스트
+정확한 API 사용: security_send(buf, spsp, secp, nssf, size, cb)
 """
 
 import pytest
@@ -27,7 +28,7 @@ from tcg_opal_codec import (
 # Security Protocol
 SECURITY_PROTOCOL_TCG = 0x01
 
-# ComID
+# ComID (used as spsp for TCG)
 COMID_DISCOVERY = 0x0001
 COMID_STACKRESET = 0x0004
 
@@ -41,72 +42,6 @@ STATUS_FAIL = 0x3F
 # ==========================================
 # Helper Functions
 # ==========================================
-
-def security_send(
-    nvme_controller,
-    protocol: int,
-    com_id: int,
-    data: bytes
-) -> None:
-    """
-    Security Send 실행
-    
-    Args:
-        nvme_controller: pynvme Controller 객체
-        protocol: Security Protocol (0x01 for TCG)
-        com_id: ComID
-        data: 전송할 데이터
-    """
-    # pynvme API 참조:
-    # controller.send_cmd(opcode, nsid, buf, ...)
-    # Security Send opcode: 0x81
-    
-    buf = nvme_controller.buffer(len(data))
-    buf[:] = data
-    
-    nvme_controller.send_cmd(
-        opcode=0x81,              # Security Send
-        nsid=0,                   # Namespace (0 for controller)
-        cdw10=(protocol << 24) | (com_id << 8),  # SECP, SPSP0, SPSP1, ComID
-        cdw11=len(data),          # Transfer Length
-        buf=buf
-    )
-    nvme_controller.waitdone()
-
-
-def security_receive(
-    nvme_controller,
-    protocol: int,
-    com_id: int,
-    allocation_length: int
-) -> bytes:
-    """
-    Security Receive 실행
-    
-    Args:
-        nvme_controller: pynvme Controller 객체
-        protocol: Security Protocol
-        com_id: ComID  
-        allocation_length: 수신 버퍼 크기
-        
-    Returns:
-        수신된 데이터
-    """
-    # Security Receive opcode: 0x82
-    
-    buf = nvme_controller.buffer(allocation_length)
-    
-    nvme_controller.send_cmd(
-        opcode=0x82,              # Security Receive
-        nsid=0,
-        cdw10=(protocol << 24) | (com_id << 8),
-        cdw11=allocation_length,
-        buf=buf
-    )
-    nvme_controller.waitdone()
-    
-    return bytes(buf)
-
 
 def parse_discovery(data: bytes) -> Dict[str, Any]:
     """
@@ -245,6 +180,19 @@ class TestTCGOpalComprehensive:
     """TCG Opal SSC v2.30 종합 테스트"""
     
     # ------------------------------------------
+    # Setup/Teardown
+    # ------------------------------------------
+    
+    def setup_method(self, method):
+        """각 테스트 전 초기화"""
+        self.admin_session_id = None
+        self.locking_session_id = None
+    
+    def teardown_method(self, method):
+        """각 테스트 후 정리"""
+        pass
+    
+    # ------------------------------------------
     # Level 0 Discovery
     # ------------------------------------------
     
@@ -255,23 +203,36 @@ class TestTCGOpalComprehensive:
         TPer의 기능을 발견
         """
         # Discovery 요청 (빈 payload)
-        request_data = bytes(512)  # All zeros
+        send_buf = ssd_h.buffer(512)
+        send_buf[:] = bytes(512)  # All zeros
         
-        # Security Send
-        security_send(
-            ssd_h,
-            protocol=SECURITY_PROTOCOL_TCG,
-            com_id=COMID_DISCOVERY,
-            data=request_data
+        # pynvme API: security_send(buf, spsp, secp, nssf, size, cb)
+        # spsp = ComID (TCG uses spsp as ComID)
+        # secp = Security Protocol
+        ssd_h.security_send(
+            send_buf,                   # buf
+            COMID_DISCOVERY,            # spsp (ComID)
+            SECURITY_PROTOCOL_TCG,      # secp
+            0,                          # nssf
+            512,                        # size
+            None                        # cb
         )
+        ssd_h.waitdone()  # 비동기 명령이므로 대기 필수
         
         # Security Receive
-        response_data = security_receive(
-            ssd_h,
-            protocol=SECURITY_PROTOCOL_TCG,
-            com_id=COMID_DISCOVERY,
-            allocation_length=2048
+        recv_buf = ssd_h.buffer(2048)
+        ssd_h.security_receive(
+            recv_buf,                   # buf
+            COMID_DISCOVERY,            # spsp
+            SECURITY_PROTOCOL_TCG,      # secp
+            0,                          # nssf
+            2048,                       # size
+            None                        # cb
         )
+        ssd_h.waitdone()
+        
+        # Buffer → bytes 변환
+        response_data = bytes(recv_buf)
         
         # 응답 파싱
         discovery = parse_discovery(response_data)
@@ -317,20 +278,32 @@ class TestTCGOpalComprehensive:
         )
         
         # Send
-        security_send(
-            ssd_h,
-            protocol=SECURITY_PROTOCOL_TCG,
-            com_id=0x0001,
-            data=payload
+        send_buf = ssd_h.buffer(len(payload))
+        send_buf[:] = payload
+        
+        ssd_h.security_send(
+            send_buf,
+            0x0001,                     # spsp (ComID)
+            SECURITY_PROTOCOL_TCG,
+            0,
+            len(payload),
+            None
         )
+        ssd_h.waitdone()
         
         # Receive
-        response_data = security_receive(
-            ssd_h,
-            protocol=SECURITY_PROTOCOL_TCG,
-            com_id=0x0001,
-            allocation_length=2048
+        recv_buf = ssd_h.buffer(2048)
+        ssd_h.security_receive(
+            recv_buf,
+            0x0001,
+            SECURITY_PROTOCOL_TCG,
+            0,
+            2048,
+            None
         )
+        ssd_h.waitdone()
+        
+        response_data = bytes(recv_buf)
         
         # 응답 파싱
         # ComPacket 헤더 스킵 (20 bytes)
@@ -349,7 +322,7 @@ class TestTCGOpalComprehensive:
         print(f"  TPer Session ID:  {parsed['tper_session_id']}")
         print(f"  Status:           {parsed['status']} (Success)")
         
-        # Session ID 저장 (다른 테스트에서 사용)
+        # Session ID 저장 (같은 테스트 내에서만 유효)
         self.admin_session_id = parsed['tper_session_id']
     
     def test_start_session_with_authentication(self, ssd_h):
@@ -373,20 +346,32 @@ class TestTCGOpalComprehensive:
         )
         
         # Send
-        security_send(
-            ssd_h,
-            protocol=SECURITY_PROTOCOL_TCG,
-            com_id=0x0001,
-            data=payload
+        send_buf = ssd_h.buffer(len(payload))
+        send_buf[:] = payload
+        
+        ssd_h.security_send(
+            send_buf,
+            0x0001,
+            SECURITY_PROTOCOL_TCG,
+            0,
+            len(payload),
+            None
         )
+        ssd_h.waitdone()
         
         # Receive
-        response_data = security_receive(
-            ssd_h,
-            protocol=SECURITY_PROTOCOL_TCG,
-            com_id=0x0001,
-            allocation_length=2048
+        recv_buf = ssd_h.buffer(2048)
+        ssd_h.security_receive(
+            recv_buf,
+            0x0001,
+            SECURITY_PROTOCOL_TCG,
+            0,
+            2048,
+            None
         )
+        ssd_h.waitdone()
+        
+        response_data = bytes(recv_buf)
         
         # 파싱
         payload_data = response_data[20:]
@@ -421,9 +406,17 @@ class TestTCGOpalComprehensive:
             write=False
         )
         
-        security_send(ssd_h, SECURITY_PROTOCOL_TCG, 0x0001, session_payload)
-        response = security_receive(ssd_h, SECURITY_PROTOCOL_TCG, 0x0001, 2048)
+        send_buf = ssd_h.buffer(len(session_payload))
+        send_buf[:] = session_payload
         
+        ssd_h.security_send(send_buf, 0x0001, SECURITY_PROTOCOL_TCG, 0, len(session_payload), None)
+        ssd_h.waitdone()
+        
+        recv_buf = ssd_h.buffer(2048)
+        ssd_h.security_receive(recv_buf, 0x0001, SECURITY_PROTOCOL_TCG, 0, 2048, None)
+        ssd_h.waitdone()
+        
+        response = bytes(recv_buf)
         parsed_session = TCGResponseParser.parse_session_response(response[20:])
         session_id = parsed_session['tper_session_id']
         
@@ -437,7 +430,7 @@ class TestTCGOpalComprehensive:
         # Parameters: [ HostProperties ]
         builder.start_list()
         
-        # Request: MaxComPacketSize, MaxPacketSize, etc.
+        # Request: MaxComPacketSize
         builder.start_name()
         builder.add_bytes(b"MaxComPacketSize")
         builder.add_integer(0)  # Request current value
@@ -450,13 +443,21 @@ class TestTCGOpalComprehensive:
         properties_packet = TCGComPacketBuilder.build(0x0001, properties_payload)
         
         # Send
-        security_send(ssd_h, SECURITY_PROTOCOL_TCG, 0x0001, properties_packet)
+        send_buf2 = ssd_h.buffer(len(properties_packet))
+        send_buf2[:] = properties_packet
+        
+        ssd_h.security_send(send_buf2, 0x0001, SECURITY_PROTOCOL_TCG, 0, len(properties_packet), None)
+        ssd_h.waitdone()
         
         # Receive
-        response = security_receive(ssd_h, SECURITY_PROTOCOL_TCG, 0x0001, 2048)
+        recv_buf2 = ssd_h.buffer(2048)
+        ssd_h.security_receive(recv_buf2, 0x0001, SECURITY_PROTOCOL_TCG, 0, 2048, None)
+        ssd_h.waitdone()
+        
+        response2 = bytes(recv_buf2)
         
         # Parse
-        payload_data = response[20:]
+        payload_data = response2[20:]
         parsed = TCGResponseParser.parse_method_response(payload_data)
         
         assert parsed['status'] == STATUS_SUCCESS
@@ -476,9 +477,17 @@ class TestTCGOpalComprehensive:
             write=False
         )
         
-        security_send(ssd_h, SECURITY_PROTOCOL_TCG, 0x0001, session_payload)
-        response = security_receive(ssd_h, SECURITY_PROTOCOL_TCG, 0x0001, 2048)
+        send_buf = ssd_h.buffer(len(session_payload))
+        send_buf[:] = session_payload
         
+        ssd_h.security_send(send_buf, 0x0001, SECURITY_PROTOCOL_TCG, 0, len(session_payload), None)
+        ssd_h.waitdone()
+        
+        recv_buf = ssd_h.buffer(2048)
+        ssd_h.security_receive(recv_buf, 0x0001, SECURITY_PROTOCOL_TCG, 0, 2048, None)
+        ssd_h.waitdone()
+        
+        response = bytes(recv_buf)
         parsed_session = TCGResponseParser.parse_session_response(response[20:])
         session_id = parsed_session['tper_session_id']
         
@@ -511,13 +520,21 @@ class TestTCGOpalComprehensive:
         get_packet = TCGComPacketBuilder.build(0x0001, get_payload)
         
         # Send
-        security_send(ssd_h, SECURITY_PROTOCOL_TCG, 0x0001, get_packet)
+        send_buf2 = ssd_h.buffer(len(get_packet))
+        send_buf2[:] = get_packet
+        
+        ssd_h.security_send(send_buf2, 0x0001, SECURITY_PROTOCOL_TCG, 0, len(get_packet), None)
+        ssd_h.waitdone()
         
         # Receive
-        response = security_receive(ssd_h, SECURITY_PROTOCOL_TCG, 0x0001, 2048)
+        recv_buf2 = ssd_h.buffer(2048)
+        ssd_h.security_receive(recv_buf2, 0x0001, SECURITY_PROTOCOL_TCG, 0, 2048, None)
+        ssd_h.waitdone()
+        
+        response2 = bytes(recv_buf2)
         
         # Parse
-        payload_data = response[20:]
+        payload_data = response2[20:]
         parsed = TCGResponseParser.parse_method_response(payload_data)
         
         assert parsed['status'] == STATUS_SUCCESS
@@ -538,32 +555,7 @@ class TestTCGOpalComprehensive:
         
         Locking SP 활성화 (SID 권한 필요)
         """
-        # 실제 환경에서는 SID로 인증 필요
-        # 여기서는 테스트 스킵 또는 Mock
         pytest.skip("Requires SID authentication - manual test only")
-        
-        # SID 인증 세션 시작
-        # ...
-        
-        # Activate Method 호출
-        builder = TCGPayloadBuilder()
-        
-        builder.add_call()
-        builder.add_uid(UID.LOCKING_SP)  # InvokingID
-        builder.add_uid(UID.ACTIVATE)    # MethodID
-        
-        builder.start_list()  # Empty parameters
-        builder.end_list()
-        builder.add_end_of_data()
-        
-        activate_payload = builder.get_payload()
-        activate_packet = TCGComPacketBuilder.build(0x0001, activate_payload)
-        
-        # Send
-        # security_send(ssd_h, SECURITY_PROTOCOL_TCG, 0x0001, activate_packet)
-        
-        # Receive
-        # response = security_receive(ssd_h, SECURITY_PROTOCOL_TCG, 0x0001, 2048)
     
     def test_revert_tper(self, ssd_h):
         """
@@ -572,15 +564,6 @@ class TestTCGOpalComprehensive:
         TPer 전체 초기화 (위험! 모든 데이터 삭제)
         """
         pytest.skip("Destructive test - manual execution only")
-        
-        # RevertSP는 Admin SP에서만 호출 가능
-        # SID 권한 필요
-        
-        # builder = TCGPayloadBuilder()
-        # builder.add_call()
-        # builder.add_uid(UID.ADMIN_SP)
-        # builder.add_uid(UID.REVERT)
-        # ...
     
     # ------------------------------------------
     # Security Tests
@@ -593,9 +576,6 @@ class TestTCGOpalComprehensive:
         세션 내에서 추가 인증
         """
         pytest.skip("Requires active session - integration test")
-        
-        # Session 내에서 Authenticate Method 호출
-        # ...
     
     def test_genkey_method(self, ssd_h):
         """
@@ -604,9 +584,6 @@ class TestTCGOpalComprehensive:
         암호화 키 생성
         """
         pytest.skip("Requires Locking SP activation")
-        
-        # GenKey는 K_AES object에서 호출
-        # ...
     
     # ------------------------------------------
     # Locking Tests
@@ -619,9 +596,6 @@ class TestTCGOpalComprehensive:
         특정 범위를 읽기 잠금
         """
         pytest.skip("Requires Locking SP and Range configuration")
-        
-        # Set Method로 Locking Object의 ReadLocked 설정
-        # ...
     
     def test_set_write_lock(self, ssd_h):
         """
@@ -640,9 +614,6 @@ class TestTCGOpalComprehensive:
         MBR Shadow 활성화/비활성화
         """
         pytest.skip("Requires MBR feature support")
-        
-        # MBRControl table의 Enable/Disable 설정
-        # ...
     
     # ------------------------------------------
     # Utility Tests
@@ -654,34 +625,7 @@ class TestTCGOpalComprehensive:
         
         난수 생성 (테스트용)
         """
-        # Session 시작
-        session_payload = build_session_payload(
-            host_session_id=10,
-            sp_uid=UID.ADMIN_SP,
-            write=False
-        )
-        
-        security_send(ssd_h, SECURITY_PROTOCOL_TCG, 0x0001, session_payload)
-        response = security_receive(ssd_h, SECURITY_PROTOCOL_TCG, 0x0001, 2048)
-        
-        # Random Method (실제 구현은 SP에 따라 다름)
-        # 여기서는 스킵
         pytest.skip("Random method UID varies by implementation")
-
-
-# ==========================================
-# Fixtures
-# ==========================================
-
-@pytest.fixture(scope="module")
-def ssd_h():
-    """
-    pynvme Controller fixture
-    
-    conftest.py에서 자동 생성됨
-    """
-    # conftest.py에서 제공하므로 여기서는 pass
-    pass
 
 
 if __name__ == "__main__":
