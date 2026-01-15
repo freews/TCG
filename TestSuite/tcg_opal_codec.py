@@ -2,7 +2,7 @@
 TCG Opal Protocol Codec
 =======================
 
-Token 인코딩/디코딩 및 Payload 파싱
+Token ì¸ì½”ë”©/ë””ì½”ë”© ë° Payload íŒŒì‹±
 """
 
 import struct
@@ -15,7 +15,7 @@ from enum import IntEnum
 # ==========================================
 
 class Token(IntEnum):
-    """TCG Storage Token 정의"""
+    """TCG Storage Token ì •ì˜"""
     # Atoms
     TINY_ATOM_START = 0x00      # 0x00-0x3F: Tiny Atom (unsigned)
     TINY_ATOM_SIGNED = 0x40     # 0x40-0x7F: Signed Tiny Atom
@@ -24,16 +24,16 @@ class Token(IntEnum):
     LONG_ATOM = 0xE0            # 0xE0-0xE3: Long Atom
     
     # Special tokens
-    START_LIST = 0xF0           # List 시작
-    END_LIST = 0xF1             # List 종료
-    START_NAME = 0xF2           # Name 시작 (키-값 쌍)
-    END_NAME = 0xF3             # Name 종료
-    CALL = 0xF8                 # Method 호출
-    END_OF_DATA = 0xF9          # 데이터 종료
-    END_OF_SESSION = 0xFA       # 세션 종료
-    START_TRANSACTION = 0xFB    # 트랜잭션 시작
-    END_TRANSACTION = 0xFC      # 트랜잭션 종료
-    EMPTY_ATOM = 0xFF           # 빈 Atom
+    START_LIST = 0xF0           # List ì‹œìž‘
+    END_LIST = 0xF1             # List ì¢…ë£Œ
+    START_NAME = 0xF2           # Name ì‹œìž‘ (í‚¤-ê°’ ìŒ)
+    END_NAME = 0xF3             # Name ì¢…ë£Œ
+    CALL = 0xF8                 # Method í˜¸ì¶œ
+    END_OF_DATA = 0xF9          # ë°ì´í„° ì¢…ë£Œ
+    END_OF_SESSION = 0xFA       # ì„¸ì…˜ ì¢…ë£Œ
+    START_TRANSACTION = 0xFB    # íŠ¸ëžœìž­ì…˜ ì‹œìž‘
+    END_TRANSACTION = 0xFC      # íŠ¸ëžœìž­ì…˜ ì¢…ë£Œ
+    EMPTY_ATOM = 0xFF           # ë¹ˆ Atom
 
 
 # ==========================================
@@ -41,18 +41,18 @@ class Token(IntEnum):
 # ==========================================
 
 class TCGPayloadBuilder:
-    """TCG Payload 생성 헬퍼"""
+    """TCG Payload ìƒì„± í—¬í¼"""
     
     def __init__(self):
         self.payload = bytearray()
     
     def add_token(self, token: int) -> 'TCGPayloadBuilder':
-        """Token 추가"""
+        """Token ì¶”ê°€"""
         self.payload.append(token)
         return self
     
     def add_tiny_atom(self, value: int) -> 'TCGPayloadBuilder':
-        """Tiny Atom 추가 (0-63)"""
+        """Tiny Atom ì¶”ê°€ (0-63)"""
         if 0 <= value <= 63:
             self.payload.append(value)
         else:
@@ -60,7 +60,7 @@ class TCGPayloadBuilder:
         return self
     
     def add_short_atom(self, data: bytes) -> 'TCGPayloadBuilder':
-        """Short Atom 추가 (1-63 bytes)"""
+        """Short Atom ì¶”ê°€ (1-63 bytes)"""
         length = len(data)
         if 1 <= length <= 63:
             self.payload.append(Token.SHORT_ATOM | length)
@@ -70,7 +70,7 @@ class TCGPayloadBuilder:
         return self
     
     def add_medium_atom(self, data: bytes) -> 'TCGPayloadBuilder':
-        """Medium Atom 추가 (64-2047 bytes)"""
+        """Medium Atom ì¶”ê°€ (64-2047 bytes)"""
         length = len(data)
         if 64 <= length <= 2047:
             # Medium atom: 110xxxxx xxxxxxxx
@@ -83,7 +83,7 @@ class TCGPayloadBuilder:
         return self
     
     def add_bytes(self, data: bytes) -> 'TCGPayloadBuilder':
-        """바이트 데이터 추가 (길이에 따라 자동 선택)"""
+        """ë°”ì´íŠ¸ ë°ì´í„° ì¶”ê°€ (ê¸¸ì´ì— ë”°ë¼ ìžë™ ì„ íƒ)"""
         length = len(data)
         if length == 0:
             self.add_token(Token.EMPTY_ATOM)
@@ -96,13 +96,13 @@ class TCGPayloadBuilder:
         return self
     
     def add_uid(self, uid: bytes) -> 'TCGPayloadBuilder':
-        """UID 추가 (8 bytes)"""
+        """UID ì¶”ê°€ (8 bytes)"""
         if len(uid) != 8:
             raise ValueError(f"UID must be 8 bytes, got {len(uid)}")
         return self.add_bytes(uid)
     
     def add_integer(self, value: int) -> 'TCGPayloadBuilder':
-        """정수 추가"""
+        """ì •ìˆ˜ ì¶”ê°€"""
         if 0 <= value <= 63:
             # Tiny atom (unsigned)
             self.add_tiny_atom(value)
@@ -113,33 +113,33 @@ class TCGPayloadBuilder:
             else:
                 self.payload.append(Token.TINY_ATOM_SIGNED | (value & 0x3F))
         else:
-            # Short/Medium atom으로 인코딩
+            # Short/Medium atomìœ¼ë¡œ ì¸ì½”ë”©
             if value >= 0:
                 data = value.to_bytes((value.bit_length() + 7) // 8, 'big')
             else:
-                # 음수는 2의 보수
+                # ìŒìˆ˜ëŠ” 2ì˜ ë³´ìˆ˜
                 byte_count = (value.bit_length() + 8) // 8
                 data = value.to_bytes(byte_count, 'big', signed=True)
             self.add_bytes(data)
         return self
     
     def start_list(self) -> 'TCGPayloadBuilder':
-        """List 시작"""
+        """List ì‹œìž‘"""
         self.add_token(Token.START_LIST)
         return self
     
     def end_list(self) -> 'TCGPayloadBuilder':
-        """List 종료"""
+        """List ì¢…ë£Œ"""
         self.add_token(Token.END_LIST)
         return self
     
     def start_name(self) -> 'TCGPayloadBuilder':
-        """Name 시작"""
+        """Name ì‹œìž‘"""
         self.add_token(Token.START_NAME)
         return self
     
     def end_name(self) -> 'TCGPayloadBuilder':
-        """Name 종료"""
+        """Name ì¢…ë£Œ"""
         self.add_token(Token.END_NAME)
         return self
     
@@ -154,7 +154,7 @@ class TCGPayloadBuilder:
         return self
     
     def get_payload(self) -> bytes:
-        """최종 Payload 반환"""
+        """ìµœì¢… Payload ë°˜í™˜"""
         return bytes(self.payload)
 
 
@@ -163,14 +163,14 @@ class TCGPayloadBuilder:
 # ==========================================
 
 class TCGPayloadParser:
-    """TCG Payload 파싱"""
+    """TCG Payload íŒŒì‹±"""
     
     def __init__(self, data: bytes):
         self.data = data
         self.pos = 0
     
     def parse(self) -> List[Any]:
-        """Payload 전체 파싱"""
+        """Payload ì „ì²´ íŒŒì‹±"""
         result = []
         while self.pos < len(self.data):
             item = self.parse_item()
@@ -180,7 +180,7 @@ class TCGPayloadParser:
         return result
     
     def parse_item(self) -> Optional[Any]:
-        """단일 아이템 파싱"""
+        """ë‹¨ì¼ ì•„ì´í…œ íŒŒì‹±"""
         if self.pos >= len(self.data):
             return None
         
@@ -195,7 +195,7 @@ class TCGPayloadParser:
         elif 0x40 <= token <= 0x7F:
             self.pos += 1
             value = token & 0x3F
-            if value & 0x20:  # 음수
+            if value & 0x20:  # ìŒìˆ˜
                 value = value - 0x40
             return value
         
@@ -219,7 +219,7 @@ class TCGPayloadParser:
         
         # Long Atom
         elif 0xE0 <= token <= 0xE3:
-            # 구현 생략 (거의 사용 안 됨)
+            # êµ¬í˜„ ìƒëžµ (ê±°ì˜ ì‚¬ìš© ì•ˆ ë¨)
             raise NotImplementedError("Long atom not implemented")
         
         # Special tokens
@@ -231,6 +231,12 @@ class TCGPayloadParser:
             self.pos += 1
             return self.parse_name()
         
+        elif token == Token.CALL:
+            # TCG Core Spec 3.2.2.3.3.1: CALL token indicates start of method invocation
+            # Used in Session Manager responses (SyncSession, SyncTrustedSession, etc.)
+            self.pos += 1
+            return {'type': 'CALL'}
+        
         elif token == Token.EMPTY_ATOM:
             self.pos += 1
             return b''
@@ -240,14 +246,14 @@ class TCGPayloadParser:
             return None
         
         elif token in [Token.END_LIST, Token.END_NAME]:
-            # List/Name 종료는 parse_list/parse_name에서 처리
+            # List/Name ì¢…ë£ŒëŠ” parse_list/parse_nameì—ì„œ ì²˜ë¦¬
             return None
         
         else:
             raise ValueError(f"Unknown token: 0x{token:02X}")
     
     def parse_list(self) -> List[Any]:
-        """List 파싱"""
+        """List íŒŒì‹±"""
         items = []
         while self.pos < len(self.data):
             if self.data[self.pos] == Token.END_LIST:
@@ -259,7 +265,7 @@ class TCGPayloadParser:
         return items
     
     def parse_name(self) -> Tuple[Any, Any]:
-        """Name (키-값 쌍) 파싱"""
+        """Name (í‚¤-ê°’ ìŒ) íŒŒì‹±"""
         key = self.parse_item()
         value = self.parse_item()
         
@@ -274,11 +280,41 @@ class TCGPayloadParser:
 # ==========================================
 
 class TCGResponseParser:
-    """TCG 응답 파싱"""
+    """TCG ì‘ë‹µ íŒŒì‹±"""
     
     @staticmethod
+    @staticmethod
     def parse_session_response(response_data: bytes) -> Dict[str, Any]:
-        """Session 응답 파싱"""
+        """
+        Session Manager Response (SyncSession) Parsing
+        
+        TCG Core Spec References:
+        - Section 5.2.3.2: SyncSession Method Response Format
+        - Section 3.2.4.2: Method Encoding (for Session Manager responses)
+        - Section 3.3.7.1.3: Session Manager Protocol Layer
+        
+        SyncSession Response Structure (returned as METHOD CALL):
+        --------------------------------------------------------
+        CALL token (0xF8)
+        InvokingID (8 bytes) - SMUID (0x00 00 00 00 00 00 00 FF)
+        MethodID (8 bytes) - SyncSession UID (0x00 00 00 00 00 00 FF 03)
+        START_LIST (0xF0)
+            HostSessionID : uinteger
+            SPSessionID : uinteger
+            [SPChallenge = bytes]           (optional - Spec 5.2.3.2.3)
+            [SPExchangeCert = bytes]        (optional - Spec 5.2.3.2.4)
+            [SPSigningCert = bytes]         (optional - Spec 5.2.3.2.5)
+            [TransTimeout = uinteger]       (optional - Spec 5.2.3.2.6)
+            [InitialCredit = uinteger]      (optional - Spec 5.2.3.2.7)
+            [SignedHash = bytes]            (optional - Spec 5.2.3.2.8)
+        END_LIST (0xF1)
+        END_OF_DATA (0xF9)
+        START_LIST (0xF0)                   <- STATUS LIST (Spec 3.2.4.2)
+            status_code : uinteger (0x00 = SUCCESS, see Spec 5.1.5)
+            reserved : uinteger (0x00)
+            reserved : uinteger (0x00)
+        END_LIST (0xF1)
+        """
         parser = TCGPayloadParser(response_data)
         parsed = parser.parse()
         
@@ -289,20 +325,68 @@ class TCGResponseParser:
             'status': None
         }
         
-        # 일반적인 Session 응답 구조:
-        # [ HostSessionID, TPer_SessionID, [ MethodStatusList ] ]
-        if len(parsed) >= 3:
-            result['session_id'] = TCGResponseParser._bytes_to_int(parsed[0])
-            result['tper_session_id'] = TCGResponseParser._bytes_to_int(parsed[1])
+        # Parse METHOD CALL structure
+        # Expected: [CALL_dict, InvokingID_bytes, MethodID_bytes, param_list, status_list]
+        try:
+            idx = 0
             
-            if isinstance(parsed[2], list) and len(parsed[2]) >= 1:
-                result['status'] = TCGResponseParser._bytes_to_int(parsed[2][0])
+            # 1. Check CALL token (Spec 3.2.2.3.3.1)
+            if idx < len(parsed) and isinstance(parsed[idx], dict) and parsed[idx].get('type') == 'CALL':
+                idx += 1
+            
+            # 2. Skip InvokingID (8 bytes SMUID) (Spec 3.2.4.2)
+            if idx < len(parsed) and isinstance(parsed[idx], bytes):
+                idx += 1
+            
+            # 3. Skip MethodID (8 bytes SyncSession UID) (Spec 3.2.4.2)
+            if idx < len(parsed) and isinstance(parsed[idx], bytes):
+                idx += 1
+            
+            # 4. Parse Parameter List (Spec 5.2.3.2)
+            # Contains: [HostSessionID, SPSessionID, optional params...]
+            if idx < len(parsed) and isinstance(parsed[idx], list):
+                param_list = parsed[idx]
+                if len(param_list) >= 1:
+                    result['session_id'] = TCGResponseParser._bytes_to_int(param_list[0])
+                if len(param_list) >= 2:
+                    result['tper_session_id'] = TCGResponseParser._bytes_to_int(param_list[1])
+                idx += 1
+            
+            # 5. Parse Status List (Spec 3.2.4.2, section 5)
+            # The status list appears AFTER End of Data token
+            # Format: [status_code, 0x00, 0x00]
+            if idx < len(parsed) and isinstance(parsed[idx], list):
+                status_list = parsed[idx]
+                if len(status_list) >= 1:
+                    result['status'] = TCGResponseParser._bytes_to_int(status_list[0])
+        
+        except Exception as e:
+            # If parsing fails, return what we have with error info
+            result['parse_error'] = str(e)
         
         return result
-    
+
     @staticmethod
     def parse_method_response(response_data: bytes) -> Dict[str, Any]:
-        """Method 응답 파싱"""
+        """
+        Regular Method Response Parsing
+        
+        TCG Core Spec References:
+        - Section 3.2.4.2: Method Response Format
+        - Section 3.3.7.2: Methods (response structure)
+        
+        Method Response Structure:
+        -------------------------
+        START_LIST (0xF0)                   <- RESULT LIST
+            [result values...]              (method-specific)
+        END_LIST (0xF1)
+        END_OF_DATA (0xF9)
+        START_LIST (0xF0)                   <- STATUS LIST (Spec 3.2.4.2)
+            status_code : uinteger (0x00 = SUCCESS, see Spec 5.1.5)
+            reserved : uinteger (0x00)
+            reserved : uinteger (0x00)
+        END_LIST (0xF1)
+        """
         parser = TCGPayloadParser(response_data)
         parsed = parser.parse()
         
@@ -312,20 +396,31 @@ class TCGResponseParser:
             'data': None
         }
         
-        # Method 응답 구조:
-        # [ [ StatusCode, ... ], [ ResultData, ... ] ]
-        if len(parsed) >= 1:
-            if isinstance(parsed[0], list) and len(parsed[0]) >= 1:
-                result['status'] = TCGResponseParser._bytes_to_int(parsed[0][0])
+        # Parse response structure
+        # Expected: [result_list, status_list]
+        try:
+            idx = 0
             
-            if len(parsed) >= 2 and isinstance(parsed[1], list):
-                result['data'] = parsed[1]
+            # 1. Parse Result List (Spec 3.2.4.2, section 2-3)
+            if idx < len(parsed) and isinstance(parsed[idx], list):
+                result['data'] = parsed[idx]
+                idx += 1
+            
+            # 2. Parse Status List (Spec 3.2.4.2, section 5)
+            # Format: [status_code, 0x00, 0x00]
+            if idx < len(parsed) and isinstance(parsed[idx], list):
+                status_list = parsed[idx]
+                if len(status_list) >= 1:
+                    result['status'] = TCGResponseParser._bytes_to_int(status_list[0])
+        
+        except Exception as e:
+            result['parse_error'] = str(e)
         
         return result
     
     @staticmethod
     def _bytes_to_int(data: Any) -> int:
-        """bytes를 int로 변환"""
+        """bytesë¥¼ intë¡œ ë³€í™˜"""
         if isinstance(data, int):
             return data
         elif isinstance(data, bytes):
@@ -341,7 +436,7 @@ class TCGResponseParser:
 # ==========================================
 
 class TCGComPacketBuilder:
-    """TCG ComPacket 생성"""
+    """TCG ComPacket ìƒì„±"""
     
     @staticmethod
     def build(
@@ -350,7 +445,7 @@ class TCGComPacketBuilder:
         extended_com_id: int = 0
     ) -> bytes:
         """
-        ComPacket 생성
+        ComPacket ìƒì„±
         
         Structure:
         - Reserved: 4 bytes
@@ -379,7 +474,7 @@ class TCGComPacketBuilder:
 # ==========================================
 
 class UID:
-    """TCG Opal 표준 UID"""
+    """TCG Opal í‘œì¤€ UID"""
     
     # Session Manager
     SM_UID = bytes([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF])

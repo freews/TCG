@@ -4,6 +4,90 @@ TCG Opal SSC v2.30 종합 테스트 스위트
 
 pynvme 기반 실제 SSD 테스트
 정확한 API 사용: security_send(buf, spsp, secp, nssf, size, cb)
+
+TCG Storage Architecture Core Specification v2.01 참조
+=====================================================
+
+주요 Spec 섹션:
+--------------
+1. Protocol Stack (Section 3)
+   - 3.2.2: Data Stream Encoding (Token format)
+   - 3.2.3: Packet Structure 
+   - 3.2.4: Method Encoding and Response
+   - 3.3.7: Session Management
+   - 3.3.10: ComPacket/Packet/Subpacket Headers
+
+2. Session Manager Methods (Section 5.2)
+   - 5.2.3.1: StartSession Method
+   - 5.2.3.2: SyncSession Response (METHOD CALL format)
+   - 5.2.3.3: StartTrustedSession
+   - 5.2.3.4: SyncTrustedSession
+
+3. Status Codes (Section 5.1.5)
+   - 0x00: SUCCESS
+   - 0x01: NOT_AUTHORIZED
+   - 0x03: SP_BUSY
+   - 0x3F: FAIL
+
+Response Packet Structure:
+-------------------------
+Every response from TPer follows this structure:
+
+Offset  | Size | Description              | Spec Reference
+--------|------|--------------------------|---------------
+0-19    | 20   | ComPacket Header         | 3.3.10.2
+        |      |   - Reserved(4)          |
+        |      |   - ComID(2)             |
+        |      |   - ComIDExt(2)          |
+        |      |   - OutstandingData(4)   |
+        |      |   - MinTransfer(4)       |
+        |      |   - Length(4)            |
+20-35   | 16   | Packet Header            | 3.2.3
+        |      |   - Session(4)           |
+        |      |   - SeqNum(4)            |
+        |      |   - Reserved(2)          |
+        |      |   - AckType(2)           |
+        |      |   - Ack(4)               |
+36-51   | 16   | Subpacket Header         | 3.2.2
+        |      |   - Reserved(6)          |
+        |      |   - Kind(2)              |
+        |      |   - Length(4)            |
+        |      |   - Reserved(4)          |
+52+     | Var  | Payload Data             | 3.2.2.3
+
+Total header size: 52 bytes
+Therefore: All payload parsing starts at offset 52
+
+SyncSession Response Payload Format (Spec 5.2.3.2):
+---------------------------------------------------
+This is returned as a METHOD CALL (Spec 3.2.4.2):
+
+CALL token (0xF8)
+InvokingID (8 bytes) - SMUID = 0x00 00 00 00 00 00 00 FF
+MethodID (8 bytes) - SyncSession = 0x00 00 00 00 00 00 FF 03
+START_LIST (0xF0)
+    HostSessionID : uinteger
+    SPSessionID : uinteger
+    [Optional parameters: SPChallenge, SPExchangeCert, etc.]
+END_LIST (0xF1)
+END_OF_DATA (0xF9)
+START_LIST (0xF0)          <- STATUS LIST
+    status_code : uinteger
+    reserved : 0x00
+    reserved : 0x00
+END_LIST (0xF1)
+
+Regular Method Response Format (Spec 3.2.4.2):
+----------------------------------------------
+START_LIST (0xF0)          <- RESULT LIST
+    [method-specific result values]
+END_LIST (0xF1)
+END_OF_DATA (0xF9)
+START_LIST (0xF0)          <- STATUS LIST
+    status_code : uinteger
+    reserved : 0x00
+    reserved : 0x00
+END_LIST (0xF1)
 """
 
 import pytest
@@ -11,7 +95,7 @@ import struct
 import hashlib
 from typing import Dict, Any, Optional, Tuple
 
-# TCG Codec 임포트
+# TCG Codec ìž„í¬íŠ¸
 from tcg_opal_codec import (
     TCGPayloadBuilder,
     TCGResponseParser,
@@ -45,7 +129,7 @@ STATUS_FAIL = 0x3F
 
 def parse_discovery(data: bytes) -> Dict[str, Any]:
     """
-    Level 0 Discovery 응답 파싱
+    Level 0 Discovery ì‘ë‹µ íŒŒì‹±
     
     Returns:
         {
@@ -102,17 +186,17 @@ def build_session_payload(
     host_signing_authority: Optional[bytes] = None
 ) -> bytes:
     """
-    StartSession Method Payload 생성
+    StartSession Method Payload ìƒì„±
     
     Args:
         host_session_id: Host Session ID
         sp_uid: SP UID (Admin SP or Locking SP)
-        write: Write 권한 요청 여부
-        host_challenge: Authentication에 사용할 challenge (PIN hash)
+        write: Write ê¶Œí•œ ìš”ì²­ ì—¬ë¶€
+        host_challenge: Authenticationì— ì‚¬ìš©í•  challenge (PIN hash)
         host_signing_authority: Authority UID
         
     Returns:
-        ComPacket 바이너리 데이터
+        ComPacket ë°”ì´ë„ˆë¦¬ ë°ì´í„°
     """
     builder = TCGPayloadBuilder()
     
@@ -165,7 +249,7 @@ def build_session_payload(
 
 def hash_password(password: str) -> bytes:
     """
-    PIN Hash 생성 (TCG Opal 표준)
+    PIN Hash ìƒì„± (TCG Opal í‘œì¤€)
     
     Hash = SHA256(password)
     """
@@ -177,19 +261,19 @@ def hash_password(password: str) -> bytes:
 # ==========================================
 
 class TestTCGOpalComprehensive:
-    """TCG Opal SSC v2.30 종합 테스트"""
+    """TCG Opal SSC v2.30 ì¢…í•© í…ŒìŠ¤íŠ¸"""
     
     # ------------------------------------------
     # Setup/Teardown
     # ------------------------------------------
     
     def setup_method(self, method):
-        """각 테스트 전 초기화"""
+        """ê° í…ŒìŠ¤íŠ¸ ì „ ì´ˆê¸°í™”"""
         self.admin_session_id = None
         self.locking_session_id = None
     
     def teardown_method(self, method):
-        """각 테스트 후 정리"""
+        """ê° í…ŒìŠ¤íŠ¸ í›„ ì •ë¦¬"""
         pass
     
     # ------------------------------------------
@@ -200,9 +284,9 @@ class TestTCGOpalComprehensive:
         """
         3.1.1 Level 0 Discovery
         
-        TPer의 기능을 발견
+        TPerì˜ ê¸°ëŠ¥ì„ ë°œê²¬
         """
-        # Discovery 요청 (빈 payload)
+        # Discovery ìš”ì²­ (ë¹ˆ payload)
         send_buf = ssd_h.buffer(512)
         send_buf[:] = bytes(512)  # All zeros
         
@@ -217,7 +301,7 @@ class TestTCGOpalComprehensive:
             512,                        # size
             None                        # cb
         )
-        ssd_h.waitdone()  # 비동기 명령이므로 대기 필수
+        ssd_h.waitdone()  # ë¹„ë™ê¸° ëª…ë ¹ì´ë¯€ë¡œ ëŒ€ê¸° í•„ìˆ˜
         
         # Security Receive
         recv_buf = ssd_h.buffer(2048)
@@ -231,22 +315,22 @@ class TestTCGOpalComprehensive:
         )
         ssd_h.waitdone()
         
-        # Buffer → bytes 변환
+        # Buffer â†’ bytes ë³€í™˜
         response_data = bytes(recv_buf)
         
-        # 응답 파싱
+        # ì‘ë‹µ íŒŒì‹±
         discovery = parse_discovery(response_data)
         
         assert 'header' in discovery
         assert 'features' in discovery
         assert len(discovery['features']) > 0
         
-        print(f"\n✓ Discovery Header:")
+        print(f"\nâœ“ Discovery Header:")
         print(f"  Version: {discovery['header']['major_version']}.{discovery['header']['minor_version']}")
         print(f"  Total Length: {discovery['header']['length']} bytes")
         print(f"  Features found: {len(discovery['features'])}")
         
-        # Feature 출력
+        # Feature ì¶œë ¥
         feature_names = {
             0x0001: "TPer",
             0x0002: "Locking",
@@ -268,9 +352,9 @@ class TestTCGOpalComprehensive:
         """
         3.3.8.2.1 StartSession to Admin SP (Unauthenticated)
         
-        Admin SP에 인증 없이 세션 시작
+        Admin SPì— ì¸ì¦ ì—†ì´ ì„¸ì…˜ ì‹œìž‘
         """
-        # Payload 생성
+        # Payload ìƒì„±
         payload = build_session_payload(
             host_session_id=1,
             sp_uid=UID.ADMIN_SP,
@@ -305,22 +389,24 @@ class TestTCGOpalComprehensive:
         
         response_data = bytes(recv_buf)
         
-        # 응답 파싱
-        # ComPacket(20) + Packet(20) + SubPacket(12) = 52 bytes 헤더
-        # 하지만 실제로는 다를 수 있으므로 Length 필드를 파싱해야 함
+        # ì‘ë‹µ íŒŒì‹±
+        # ComPacket(20) + Packet(20) + SubPacket(12) = 52 bytes í—¤ë”
+        # í•˜ì§€ë§Œ ì‹¤ì œë¡œëŠ” ë‹¤ë¥¼ ìˆ˜ ìžˆìœ¼ë¯€ë¡œ Length í•„ë“œë¥¼ íŒŒì‹±í•´ì•¼ í•¨
         
-        # ComPacket Length 추출 (offset 16-20, big-endian)
+        # ComPacket Length ì¶”ì¶œ (offset 16-20, big-endian)
         com_length = struct.unpack('>I', response_data[16:20])[0]
         
-        # Packet Length 추출 (offset 36-40, big-endian) 
+        # Packet Length ì¶”ì¶œ (offset 36-40, big-endian) 
         packet_length = struct.unpack('>I', response_data[36:40])[0]
         
-        # SubPacket Length 추출 (offset 48-52, big-endian)
+        # SubPacket Length ì¶”ì¶œ (offset 48-52, big-endian)
         subpacket_length = struct.unpack('>I', response_data[48:52])[0]
         
-        # Payload는 SubPacket 헤더(52 bytes) 이후
+        # PayloadëŠ” SubPacket í—¤ë”(52 bytes) ì´í›„
         payload_data = response_data[52:]
         
+        # Parse SyncSession response (Spec 5.2.3.2)
+        # Response is METHOD CALL format with STATUS LIST
         parsed = TCGResponseParser.parse_session_response(payload_data)
         
         assert parsed['status'] == STATUS_SUCCESS, \
@@ -329,30 +415,30 @@ class TestTCGOpalComprehensive:
         assert parsed['session_id'] is not None
         assert parsed['tper_session_id'] is not None
         
-        print(f"\n✓ Session Started:")
+        print(f"\nâœ“ Session Started:")
         print(f"  Host Session ID:  {parsed['session_id']}")
         print(f"  TPer Session ID:  {parsed['tper_session_id']}")
         print(f"  Status:           {parsed['status']} (Success)")
         
-        # Session ID 저장 (같은 테스트 내에서만 유효)
+        # Session ID ì €ìž¥ (ê°™ì€ í…ŒìŠ¤íŠ¸ ë‚´ì—ì„œë§Œ ìœ íš¨)
         self.admin_session_id = parsed['tper_session_id']
     
     def test_start_session_with_authentication(self, ssd_h):
         """
         3.3.8.2.2 StartSession with SID Authentication
         
-        SID로 인증하여 Admin SP 세션 시작
+        SIDë¡œ ì¸ì¦í•˜ì—¬ Admin SP ì„¸ì…˜ ì‹œìž‘
         """
-        # MSID 값 (일반적으로 드라이브의 MSID label에서 가져옴)
-        # 테스트 환경에서는 "password" 사용
+        # MSID ê°’ (ì¼ë°˜ì ìœ¼ë¡œ ë“œë¼ì´ë¸Œì˜ MSID labelì—ì„œ ê°€ì ¸ì˜´)
+        # í…ŒìŠ¤íŠ¸ í™˜ê²½ì—ì„œëŠ” "password" ì‚¬ìš©
         msid_password = "password"
         msid_hash = hash_password(msid_password)
         
-        # Payload 생성
+        # Payload ìƒì„±
         payload = build_session_payload(
             host_session_id=2,
             sp_uid=UID.ADMIN_SP,
-            write=True,  # Write 권한
+            write=True,  # Write ê¶Œí•œ
             host_challenge=msid_hash,
             host_signing_authority=UID.SID
         )
@@ -385,18 +471,20 @@ class TestTCGOpalComprehensive:
         
         response_data = bytes(recv_buf)
         
-        # 파싱 (52 bytes 헤더 스킵)
+        # íŒŒì‹± (52 bytes í—¤ë” ìŠ¤í‚µ)
         payload_data = response_data[52:]
+        # Parse SyncSession response (Spec 5.2.3.2)
+        # Response is METHOD CALL format with STATUS LIST
         parsed = TCGResponseParser.parse_session_response(payload_data)
         
-        # 인증 실패는 STATUS_NOT_AUTHORIZED (0x01)
-        # 성공이면 STATUS_SUCCESS (0x00)
+        # ì¸ì¦ ì‹¤íŒ¨ëŠ” STATUS_NOT_AUTHORIZED (0x01)
+        # ì„±ê³µì´ë©´ STATUS_SUCCESS (0x00)
         if parsed['status'] == STATUS_NOT_AUTHORIZED:
             pytest.skip("SID authentication failed - MSID unknown")
         
         assert parsed['status'] == STATUS_SUCCESS
         
-        print(f"\n✓ Authenticated Session:")
+        print(f"\nâœ“ Authenticated Session:")
         print(f"  Authority:        SID")
         print(f"  Session ID:       {parsed['tper_session_id']}")
         print(f"  Write Access:     True")
@@ -409,9 +497,9 @@ class TestTCGOpalComprehensive:
         """
         5.1.4.1 Properties Method
         
-        TPer의 속성 조회
+        TPerì˜ ì†ì„± ì¡°íšŒ
         """
-        # Session 시작 (unauthenticated)
+        # Session ì‹œìž‘ (unauthenticated)
         session_payload = build_session_payload(
             host_session_id=3,
             sp_uid=UID.ADMIN_SP,
@@ -429,10 +517,11 @@ class TestTCGOpalComprehensive:
         ssd_h.waitdone()
         
         response = bytes(recv_buf)
+        # Parse SyncSession response from offset 52 (after headers)
         parsed_session = TCGResponseParser.parse_session_response(response[52:])
         session_id = parsed_session['tper_session_id']
         
-        # Properties Method 호출
+        # Properties Method í˜¸ì¶œ
         builder = TCGPayloadBuilder()
         
         builder.add_call()
@@ -470,19 +559,21 @@ class TestTCGOpalComprehensive:
         
         # Parse
         payload_data = response2[52:]
+        # Parse regular method response (Spec 3.2.4.2)
+        # Format: [result_list, status_list]
         parsed = TCGResponseParser.parse_method_response(payload_data)
         
         assert parsed['status'] == STATUS_SUCCESS
         
-        print(f"\n✓ Properties Method:")
+        print(f"\nâœ“ Properties Method:")
         print(f"  Status: {parsed['status']}")
         print(f"  Data:   {parsed['data']}")
     
     def test_get_method_locking_info(self, ssd_h):
         """
-        Get Method로 Locking Info 조회
+        Get Methodë¡œ Locking Info ì¡°íšŒ
         """
-        # Session 시작
+        # Session ì‹œìž‘
         session_payload = build_session_payload(
             host_session_id=4,
             sp_uid=UID.ADMIN_SP,
@@ -500,6 +591,7 @@ class TestTCGOpalComprehensive:
         ssd_h.waitdone()
         
         response = bytes(recv_buf)
+        # Parse SyncSession response from offset 52 (after headers)
         parsed_session = TCGResponseParser.parse_session_response(response[52:])
         session_id = parsed_session['tper_session_id']
         
@@ -547,11 +639,13 @@ class TestTCGOpalComprehensive:
         
         # Parse
         payload_data = response2[52:]
+        # Parse regular method response (Spec 3.2.4.2)
+        # Format: [result_list, status_list]
         parsed = TCGResponseParser.parse_method_response(payload_data)
         
         assert parsed['status'] == STATUS_SUCCESS
         
-        print(f"\n✓ Get Locking Info:")
+        print(f"\nâœ“ Get Locking Info:")
         print(f"  Status: {parsed['status']}")
         
         if parsed['data']:
@@ -565,7 +659,7 @@ class TestTCGOpalComprehensive:
         """
         4.3.3.1 Activate Method
         
-        Locking SP 활성화 (SID 권한 필요)
+        Locking SP í™œì„±í™” (SID ê¶Œí•œ í•„ìš”)
         """
         pytest.skip("Requires SID authentication - manual test only")
     
@@ -573,7 +667,7 @@ class TestTCGOpalComprehensive:
         """
         4.3.3.2 RevertSP Method
         
-        TPer 전체 초기화 (위험! 모든 데이터 삭제)
+        TPer ì „ì²´ ì´ˆê¸°í™” (ìœ„í—˜! ëª¨ë“  ë°ì´í„° ì‚­ì œ)
         """
         pytest.skip("Destructive test - manual execution only")
     
@@ -585,7 +679,7 @@ class TestTCGOpalComprehensive:
         """
         3.3.8.2.3 Authenticate Method
         
-        세션 내에서 추가 인증
+        ì„¸ì…˜ ë‚´ì—ì„œ ì¶”ê°€ ì¸ì¦
         """
         pytest.skip("Requires active session - integration test")
     
@@ -593,7 +687,7 @@ class TestTCGOpalComprehensive:
         """
         5.4.3.2 GenKey Method
         
-        암호화 키 생성
+        ì•”í˜¸í™” í‚¤ ìƒì„±
         """
         pytest.skip("Requires Locking SP activation")
     
@@ -603,9 +697,9 @@ class TestTCGOpalComprehensive:
     
     def test_set_read_lock(self, ssd_h):
         """
-        5.3.2.1 Locking 설정
+        5.3.2.1 Locking ì„¤ì •
         
-        특정 범위를 읽기 잠금
+        íŠ¹ì • ë²”ìœ„ë¥¼ ì½ê¸° ìž ê¸ˆ
         """
         pytest.skip("Requires Locking SP and Range configuration")
     
@@ -623,7 +717,7 @@ class TestTCGOpalComprehensive:
         """
         5.2.2 MBR Control
         
-        MBR Shadow 활성화/비활성화
+        MBR Shadow í™œì„±í™”/ë¹„í™œì„±í™”
         """
         pytest.skip("Requires MBR feature support")
     
@@ -635,7 +729,7 @@ class TestTCGOpalComprehensive:
         """
         5.4.3.4 Random Method
         
-        난수 생성 (테스트용)
+        ë‚œìˆ˜ ìƒì„± (í…ŒìŠ¤íŠ¸ìš©)
         """
         pytest.skip("Random method UID varies by implementation")
 
