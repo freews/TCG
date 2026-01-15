@@ -306,8 +306,20 @@ class TestTCGOpalComprehensive:
         response_data = bytes(recv_buf)
         
         # 응답 파싱
-        # ComPacket 헤더 스킵 (20 bytes)
-        payload_data = response_data[20:]
+        # ComPacket(20) + Packet(20) + SubPacket(12) = 52 bytes 헤더
+        # 하지만 실제로는 다를 수 있으므로 Length 필드를 파싱해야 함
+        
+        # ComPacket Length 추출 (offset 16-20, big-endian)
+        com_length = struct.unpack('>I', response_data[16:20])[0]
+        
+        # Packet Length 추출 (offset 36-40, big-endian) 
+        packet_length = struct.unpack('>I', response_data[36:40])[0]
+        
+        # SubPacket Length 추출 (offset 48-52, big-endian)
+        subpacket_length = struct.unpack('>I', response_data[48:52])[0]
+        
+        # Payload는 SubPacket 헤더(52 bytes) 이후
+        payload_data = response_data[52:]
         
         parsed = TCGResponseParser.parse_session_response(payload_data)
         
@@ -373,8 +385,8 @@ class TestTCGOpalComprehensive:
         
         response_data = bytes(recv_buf)
         
-        # 파싱
-        payload_data = response_data[20:]
+        # 파싱 (52 bytes 헤더 스킵)
+        payload_data = response_data[52:]
         parsed = TCGResponseParser.parse_session_response(payload_data)
         
         # 인증 실패는 STATUS_NOT_AUTHORIZED (0x01)
@@ -417,7 +429,7 @@ class TestTCGOpalComprehensive:
         ssd_h.waitdone()
         
         response = bytes(recv_buf)
-        parsed_session = TCGResponseParser.parse_session_response(response[20:])
+        parsed_session = TCGResponseParser.parse_session_response(response[52:])
         session_id = parsed_session['tper_session_id']
         
         # Properties Method 호출
@@ -457,7 +469,7 @@ class TestTCGOpalComprehensive:
         response2 = bytes(recv_buf2)
         
         # Parse
-        payload_data = response2[20:]
+        payload_data = response2[52:]
         parsed = TCGResponseParser.parse_method_response(payload_data)
         
         assert parsed['status'] == STATUS_SUCCESS
@@ -488,7 +500,7 @@ class TestTCGOpalComprehensive:
         ssd_h.waitdone()
         
         response = bytes(recv_buf)
-        parsed_session = TCGResponseParser.parse_session_response(response[20:])
+        parsed_session = TCGResponseParser.parse_session_response(response[52:])
         session_id = parsed_session['tper_session_id']
         
         # Get Method
@@ -534,7 +546,7 @@ class TestTCGOpalComprehensive:
         response2 = bytes(recv_buf2)
         
         # Parse
-        payload_data = response2[20:]
+        payload_data = response2[52:]
         parsed = TCGResponseParser.parse_method_response(payload_data)
         
         assert parsed['status'] == STATUS_SUCCESS
